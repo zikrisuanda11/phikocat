@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('description_product');
             $table->bigInteger('price_product');
             $table->integer('stock_product');
-            $table->unsignedBigInteger('type_product_id');
-            $table->foreign('type_product_id')->references('id')->on('type_products_pets');
+            $table->foreignId('type_product_id')->constrained('type_product_pets');
+            // $table->unsignedBigInteger('type_product_id');
+            // $table->foreign('type_product_id')->references('id')->on('type_products_pets');
             $table->timestamps();
         });
     }
