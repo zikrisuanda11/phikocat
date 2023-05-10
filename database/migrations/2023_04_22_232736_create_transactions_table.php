@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->date('date_transaction');
             $table->bigInteger('amount');
-            $table->unsignedInteger('type_transaction_id');
-            $table->foreign('type_transaction_id')->references('id')->on('type_transactions');
+            $table->foreignId('type_transaction_id')->constrained('type_transasctions');
+            // $table->unsignedInteger('type_transaction_id');
+            // $table->foreign('type_transaction_id')->references('id')->on('type_transactions');
             $table->enum('type_payment', ['transfer', 'cod']);
             $table->enum('status_transaction', ['failed','pending','success']);
             $table->string('evidence_of_transfer')->nullable();

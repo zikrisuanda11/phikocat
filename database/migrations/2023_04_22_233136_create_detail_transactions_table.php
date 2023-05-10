@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('detail_transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('transaction_id');
-            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreignId('transaction_id')->constrained('transactions');
             // product, quantity, total amount
-            $table->unsignedInteger('product_id')->nullable();
-            $table->foreign('product_id')->references('id')->on('product_pets');
+            $table->foreignId('product_id')->constrained('product_pets');
             $table->integer('quantity')->nullable();
             // service, date_service, date_checkin, date_out,
-            $table->unsignedInteger('service_id')->nullable();
-            $table->foreign('service_id')->references('id')->on('service_pets');
+            $table->foreignId('service_id')->constrained('service_pets');
             $table->date('date_service')->nullable();
             $table->date('date_checkin')->nullable();
             $table->date('date_out')->nullable();
