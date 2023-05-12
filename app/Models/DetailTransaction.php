@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class DetailTransaction extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function productPets()
+    {
+        return $this->belongsTo(ProductPet::class);
+    }
+
+    public function servicePet()
+    {
+        return $this->belongsTo(ServicePet::class);
+    }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class);
+    }
 }
