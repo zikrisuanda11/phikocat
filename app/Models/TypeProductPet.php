@@ -13,6 +13,6 @@ class TypeProductPet extends Model
 
     public function productPets()
     {
-        return $this->hasMany(ProductPet::class);
+        return $this->hasMany(ProductPet::class, 'type_product_id');
     }
 }

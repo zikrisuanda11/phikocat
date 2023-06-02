@@ -11,13 +11,18 @@ class ProductPet extends Model
 
     protected $guarded = ['id'];
 
-    public function typeProduct()
+    public function typeProducts()
     {
-        return $this->belongsTo(TypeProductPet::class);
+        return $this->belongsTo(TypeProductPet::class, 'type_product_id');
     }
 
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function detailTransaction()
+    {
+        return $this->hasOne(DetailTransaction::class);
     }
 }

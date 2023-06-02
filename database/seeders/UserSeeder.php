@@ -18,19 +18,22 @@ class UserSeeder extends Seeder
             'name'      => 'admin',
             'email'     => 'admin@test.com',
             'is_active' => true,
-            'password'  => Hash::make('password')
+            'password'  => Hash::make('password'),
+            'phone' => fake()->phoneNumber()
         ]);
         $manager = User::create([
             'name'      => 'manager',
             'email'     => 'manager@test.com',
             'is_active' => true,
-            'password'  => Hash::make('password')
+            'password'  => Hash::make('password'),
+            'phone' => fake()->phoneNumber()
         ]);
         $customer = User::create([
             'name'      => 'customer',
             'email'     => 'customer@test.com',
             'is_active' => true,
-            'password'  => Hash::make('password')
+            'password'  => Hash::make('password'),
+            'phone' => fake()->phoneNumber()
         ]);
 
         $admin->assignRole('admin');

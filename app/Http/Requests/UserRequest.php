@@ -39,4 +39,23 @@ class UserRequest extends FormRequest
             'password.required' => 'Password wajib diisi.',
         ];
     }
+
+    public function updateRules(): array
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required|email',
+            'is_active' => 'required',
+        ];
+    }
+
+    public function updateMessage(): array
+    {
+        return [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'is_active.required' => 'Status aktif wajib diisi.',
+        ];
+    }
 }

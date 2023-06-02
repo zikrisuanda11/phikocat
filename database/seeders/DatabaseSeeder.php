@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\TypeTransaction;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,7 +22,13 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            TypeProductPetSeeder::class,
+            ProductPetSeeder::class,
+            ServicePetSeeder::class,
+            TypeTransactionSeeder::class,
+            TransactionSeeder::class,
+            DetailTransactionSeeder::class
         ]);
     }
 }

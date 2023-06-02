@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->date('date_transaction');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->dateTime('date_transaction');
             $table->bigInteger('amount');
             $table->foreignId('type_transaction_id')->constrained('type_transactions')->onDelete('cascade');
             $table->enum('type_payment', ['transfer', 'cod']);

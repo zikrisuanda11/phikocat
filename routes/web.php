@@ -1,9 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\HistoryController;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ProductPetController;
+use App\Http\Controllers\Admin\ServicePetController;
+use App\Http\Controllers\Admin\TypeProductController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +28,13 @@ Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard');
+Route::resource('/products', ProductPetController::class);
+Route::get('/histories', [HistoryController::class, 'index']);
+Route::get('/histories/{id}/detail', [HistoryController::class, 'detail']);
+Route::resource('/services', ServicePetController::class);
+Route::resource('/users', UserController::class);
+Route::resource('/type-products', TypeProductController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

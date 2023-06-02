@@ -13,12 +13,12 @@ class DetailTransaction extends Model
 
     public function productPets()
     {
-        return $this->belongsTo(ProductPet::class);
+        return $this->belongsTo(ProductPet::class, 'product_id');
     }
 
     public function servicePet()
     {
-        return $this->belongsTo(ServicePet::class);
+        return $this->belongsTo(ServicePet::class, 'service_id');
     }
 
     public function transaction()
