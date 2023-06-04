@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ProductPetRequest;
 use App\Models\ProductPet;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductPetRequest;
+use App\Models\TypeProductPet;
 
 class ProductPetController extends Controller
 {
@@ -13,7 +15,11 @@ class ProductPetController extends Controller
      */
     public function index()
     {
-        $data = ProductPet::all();
+        $datas = ProductPet::with('typeProducts')->get();
+        // dd($data);
+        return inertia('Admin/ProductPet/Index', [
+            'datas' => $datas
+        ]);
     }
 
     /**
@@ -21,7 +27,18 @@ class ProductPetController extends Controller
      */
     public function create()
     {
-        //
+        $typeProductPet = TypeProductPet::all();
+        $formattedTypeProductPet = $typeProductPet->map(function ($data) {
+            return [
+                'id' => $data->id,
+                'name' => $data->name_type,
+                'created_at' => $data->created_at,
+                'updated_at' => $data->updated_at,
+            ];
+        });
+        return inertia('Admin/ProductPet/Create', [
+            'typeProductPets' => $formattedTypeProductPet
+        ]);
     }
 
     /**
@@ -29,13 +46,15 @@ class ProductPetController extends Controller
      */
     public function store(ProductPetRequest $request)
     {
-        $data = ProductPet::create([
+        ProductPet::create([
             'name_product' => $request->name_product,
             'description_product' => $request->description_product,
             'price_product' => $request->price_product,
             'stock_product' => $request->stock_product,
             'type_product_id' => $request->type_product_id
         ]);
+
+        return redirect()->route('products.index')->with('message', 'Data Berhasil Disimpan');
     }
 
     /**
@@ -51,7 +70,20 @@ class ProductPetController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $productPet = ProductPet::find($id);
+        $typeProductPets = TypeProductPet::all();
+        $formattedTypeProductPet = $typeProductPets->map(function ($data) {
+            return [
+                'id' => $data->id,
+                'name' => $data->name_type,
+                'created_at' => $data->created_at,
+                'updated_at' => $data->updated_at,
+            ];
+        });
+        return inertia('Admin/ProductPet/Edit', [
+            'productPet' => $productPet,
+            'typeProductPets' => $formattedTypeProductPet
+        ]);
     }
 
     /**
@@ -67,6 +99,8 @@ class ProductPetController extends Controller
             'stock_product' => $request->stock_product,
             'type_product_id' => $request->type_product_id
         ]);
+
+        return redirect()->route('products.index')->with('message', 'Data berhasil diubah');
     }
 
     /**
@@ -76,5 +110,6 @@ class ProductPetController extends Controller
     {
         $data = ProductPet::find($id);
         $data->delete();
+        return redirect()->route('products.index')->with('message', 'Data berhasil dihapus');
     }
 }

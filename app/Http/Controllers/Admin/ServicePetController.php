@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\ServicePetRequest;
 use App\Models\ServicePet;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ServicePetRequest;
 
 class ServicePetController extends Controller
 {
@@ -13,7 +14,10 @@ class ServicePetController extends Controller
      */
     public function index()
     {
-        //
+        $servicePets = ServicePet::all();
+        return inertia('Admin/ServicePet/Index', [
+            'servicePets' => $servicePets
+        ]);
     }
 
     /**
@@ -21,7 +25,7 @@ class ServicePetController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Admin/ServicePet/Create');
     }
 
     /**
@@ -29,12 +33,14 @@ class ServicePetController extends Controller
      */
     public function store(ServicePetRequest $request)
     {
-        $data = ServicePet::create([
+        ServicePet::create([
             'name_service' => $request->name_service,
             'price_service' => $request->price_service,
             'type_service' => $request->type_service,
             'description_service' => $request->description_service
         ]);
+
+        return redirect()->route('services.index')->with('message', 'Data berhasil disimpan');
     }
 
     /**
@@ -50,7 +56,10 @@ class ServicePetController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $servicePet = ServicePet::find($id);
+        return inertia('Admin/ServicePet/Edit', [
+            'servicePet' => $servicePet
+        ]);
     }
 
     /**
@@ -65,6 +74,8 @@ class ServicePetController extends Controller
             'type_service' => $request->type_service,
             'description_service' => $request->description_service
         ]);
+
+        return redirect()->route('services.index')->with('message', 'Data berhasil diubah');
     }
 
     /**
@@ -74,5 +85,7 @@ class ServicePetController extends Controller
     {
         $data = ServicePet::find($id);
         $data->delete();
+
+        return redirect()->route('services.index')->with('message', 'Data berhasil dihapus');
     }
 }
