@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class TypeProductPet extends Model
 {
     use HasFactory;
+
+    protected $guarded = ['id'];
+
+    public function productPets()
+    {
+        return $this->hasMany(ProductPet::class);
+    }
 }

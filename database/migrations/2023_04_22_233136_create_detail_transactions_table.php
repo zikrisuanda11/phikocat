@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('detail_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->constrained('transactions');
+            $table->foreignId('transaction_id')->unique()->constrained('transactions')->onDelete('cascade');
             // product, quantity, total amount
-            $table->foreignId('product_id')->constrained('product_pets');
+            $table->foreignId('product_id')->constrained('product_pets')->onDelete('cascade');
+            $table->foreignId('service_id')->constrained('service_pets')->onDelete('cascade');
             $table->integer('quantity')->nullable();
             // service, date_service, date_checkin, date_out,
-            $table->foreignId('service_id')->constrained('service_pets');
             $table->date('date_service')->nullable();
             $table->date('date_checkin')->nullable();
             $table->date('date_out')->nullable();

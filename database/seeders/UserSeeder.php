@@ -17,16 +17,19 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name'      => 'admin',
             'email'     => 'admin@test.com',
+            'is_active' => true,
             'password'  => Hash::make('password')
         ]);
         $manager = User::create([
             'name'      => 'manager',
             'email'     => 'manager@test.com',
+            'is_active' => true,
             'password'  => Hash::make('password')
         ]);
         $customer = User::create([
             'name'      => 'customer',
             'email'     => 'customer@test.com',
+            'is_active' => true,
             'password'  => Hash::make('password')
         ]);
 
