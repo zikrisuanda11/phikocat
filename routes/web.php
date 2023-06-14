@@ -29,17 +29,25 @@ Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-Route::resource('/products', ProductPetController::class);
+
 Route::get('/histories', [HistoryController::class, 'index']);
 Route::get('/histories/{id}/detail', [HistoryController::class, 'detail']);
-Route::resource('/services', ServicePetController::class);
-Route::resource('/users', UserController::class);
-Route::resource('/type-products', TypeProductController::class);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('/products', ProductPetController::class);
+
+
+        Route::resource('/services', ServicePetController::class);
+        Route::resource('/users', UserController::class);
+        Route::resource('/type-products', TypeProductController::class);
+    });
+
+    Route::middleware('role:manager')->group(function () {
+    });
+
+    Route::middleware('role:customer')->group(function () {
+    });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
