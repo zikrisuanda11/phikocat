@@ -1,5 +1,6 @@
 import React from "react";
-import { usePage, InertiaLink } from '@inertiajs/inertia-react';
+import { usePage } from '@inertiajs/react'
+import { InertiaLink } from '@inertiajs/inertia-react'
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import { BsBoxSeam, BsClockHistory } from 'react-icons/bs';
 import { BiCategoryAlt, BiUser } from 'react-icons/bi';
@@ -11,6 +12,7 @@ function classNames(...classes) {
 
 export default function Layout({ children }) {
   const { url } = usePage();
+  console.log(url);
 
   const id = url.split('/').slice(1);
 
