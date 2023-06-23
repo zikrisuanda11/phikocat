@@ -25,21 +25,23 @@ class HistoryController extends Controller
 
     public function detail(Request $request)
     {
-        $transaction = Transaction::where('id', $request->id)->with('user', 'typeTransaction')->first();
-        $detailTransaction = DetailTransaction::where('id',$request->id)->with('transaction', 'productPets', 'servicePet')->first();
+        // TODO uji jika didalam transaksi hanya ada 1 product, atau service
+        $transaction = Transaction::where('id', $request->id)->with('user', 'typeTransaction', 'detailTransactions.productPets', 'detailTransactions.servicePet')->first();
+        // return response()->json([
+        //     'data' => $transaction
+        // ]);
         return inertia('Admin/History/Detail', [
-            'detail_transaction' => $detailTransaction,
             'transaction' => $transaction
         ]);
     }
 
-    public function detailJson(Request $request)
-    {
-        $transactions = Transaction::where('id', $request->id)->with('user', 'typeTransaction')->get();
-        $detailTransaction = DetailTransaction::where('id',$request->id)->with('transaction', 'productPets', 'servicePet')->first();
-        return response()->json([
-            'detail_transaction' => $detailTransaction,
-            'transaction' => $transactions
-        ]);
-    }
+    // public function detailJson(Request $request)
+    // {
+    //     $transactions = Transaction::with('detailTransaction')->where('id', $request->id)->with('user', 'typeTransaction')->get();
+    //     // $detailTransaction = DetailTransaction::where('id',$request->id)->with('transaction', 'productPets', 'servicePet')->first();
+    //     return response()->json([
+    //         // 'detail_transaction' => $detailTransaction,
+    //         'transaction' => $transactions
+    //     ]);
+    // }
 }

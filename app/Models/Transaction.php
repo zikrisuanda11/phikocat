@@ -13,7 +13,7 @@ class Transaction extends Model
 
     public function detailTransactions()
     {
-        return $this->hasOne(DetailTransaction::class);
+        return $this->hasMany(DetailTransaction::class);
     }
 
     public function typeTransaction()
