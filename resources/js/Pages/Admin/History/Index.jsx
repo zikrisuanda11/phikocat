@@ -4,8 +4,11 @@ import Layout from "@/Layouts/Default";
 import Buttons from "@/Components/Buttons/Index";
 import Breadcrumb from '@/Components/Breadcrumb/Index'
 import Modal from "@/Components/Modal/Detail";
+import { usePage } from "@inertiajs/inertia-react";
 
 export default function ProductPet({ transactions, detail_transaction }) {
+  // const {url} = usePage()
+
   console.log(detail_transaction);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
