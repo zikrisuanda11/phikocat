@@ -1,9 +1,14 @@
 import Buttons from "@/Components/Buttons/Index"
 import { KeyboardArrowRight } from "@mui/icons-material";
-import HeaderImage from "../../../public/header-img.png";
+import HeaderImage from "../../../../public/header-img.png";
+import { Link } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 
 
 function Landing(){
+  const {auth} = usePage().props
+  console.log(auth)
+
   return (
     <div>
       
@@ -19,8 +24,22 @@ function Landing(){
           <p className="hover:cursor-pointer">Kontak</p>
         </div>
         <div className="flex gap-5">
-          <Buttons variant={'contained'} size={'medium'} title={'Masuk'} backgroundColor={'#124C5F'}/>
-          <Buttons variant={'contained'} size={'medium'} title={'Daftar'} backgroundColor={'#C7E7E1'} textColor={'#124C5F'}/>
+          {auth.user ? 
+          <>
+            <Link href={route('logout')} method="POST">
+              <Buttons variant={'contained'} size={'medium'} title={'Keluar'} backgroundColor={'#124C5F'}/>
+            </Link>
+          </>
+          :
+          <>
+            <Link href={route('login')}>
+              <Buttons variant={'contained'} size={'medium'} title={'Masuk'} backgroundColor={'#124C5F'}/>
+            </Link>
+            <Link href={route('register')}>
+              <Buttons variant={'contained'} size={'medium'} title={'Daftar'} backgroundColor={'#C7E7E1'} textColor={'#124C5F'}/>
+            </Link>
+          </>
+          }
         </div>
       </nav>
 
