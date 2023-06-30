@@ -41,8 +41,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/', function () {
-    return Inertia::render('Landing');
+    return Inertia::render('Landing/index');
 });
+
 
 Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
 

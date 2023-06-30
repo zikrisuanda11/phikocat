@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $name = "Inertia app";
+        $name = "Mahardika";
 
         return Inertia('Home', [
             'name' => $name
