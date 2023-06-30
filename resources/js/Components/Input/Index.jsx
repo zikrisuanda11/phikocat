@@ -3,6 +3,7 @@ import React from "react";
 export default function Input({ type, id, value, onChange, placeholder, customClass }) {
   return (
     <input
+      required
       type={type}
       id={id}
       placeholder={placeholder}

@@ -55,8 +55,8 @@ Route::get('/histories/{id}/detail', [HistoryController::class, 'detail']);
 
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
-        Route::resource('/products', ProductPetController::class);
-
+        Route::resource('/products', ProductPetController::class)->except('update');
+        Route::post('/products/{id}', [ProductPetController::class, 'update']);
 
         Route::resource('/services', ServicePetController::class);
         Route::resource('/users', UserController::class);

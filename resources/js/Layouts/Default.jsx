@@ -12,7 +12,6 @@ function classNames(...classes) {
 
 export default function Layout({ children }) {
   const { url } = usePage();
-  console.log(url);
 
   const id = url.split('/').slice(1);
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { useState, useEffect } from "react";
 import Layout from "@/Layouts/Default"
@@ -6,10 +6,10 @@ import Buttons from "@/Components/Buttons/Index";
 import Breadcrumb from '@/Components/Breadcrumb/Index'
 import Input from "@/Components/Input/Index";
 import ComboBox from "@/Components/ComboBox/Index"
+import File from "@/Components/Input/File";
+import Alert from "@/Components/Alert";
 
-
-
-export default function Create({typeProductPets}) {
+export default function Create({ typeProductPets, errors }) {
   const [name_product, setNameProduct] = useState();
   const [description_product, setDescriptionProduct] = useState();
   const [price_product, setPriceProduct] = useState();
@@ -17,7 +17,9 @@ export default function Create({typeProductPets}) {
   const [type_product_id, setTypeProductId] = useState();
   const [selected, setSelected] = useState(typeProductPets[0]);
   const [query, setQuery] = useState('');
-  
+  const [file, setFile] = useState(null);
+  console.log(errors);
+
   useEffect(() => {
     setTypeProductId(selected.id)
   }, [selected]);
@@ -30,7 +32,8 @@ export default function Create({typeProductPets}) {
       description_product: description_product,
       price_product: price_product,
       stock_product: stock_product,
-      type_product_id: type_product_id
+      type_product_id: type_product_id,
+      photo_product: file
     })
   }
 
@@ -44,7 +47,7 @@ export default function Create({typeProductPets}) {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Product', href: '/products' ,key: '1' },
+                    { name: 'Product', href: '/products', key: '1' },
                     { name: 'Table', href: '/products', key: '2' },
                     { name: 'Create Product', key: '3' },
                   ]}
@@ -55,7 +58,7 @@ export default function Create({typeProductPets}) {
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-6 gap-6">
                   <div className="col-span-2  flex flex-col">
-                    <label htmlFor="name_product" className=" text-right my-3 text-gray-500">
+                    <label htmlFor="name_product" className="text-right my-3 text-gray-500">
                       Product Name
                     </label>
                     <label htmlFor="description_product" className=" text-right my-6 text-gray-500">
@@ -67,7 +70,13 @@ export default function Create({typeProductPets}) {
                     <label htmlFor="stock_product" className=" text-right my-7 text-gray-500">
                       Stock Product
                     </label>
-                    <label htmlFor="type_product" className=" text-right my-2 text-gray-500">
+                    <label className="text-right my-2 text-gray-500">
+                      Photo Product
+                    </label>
+                    {errors.photo_product && (
+                      <Alert customClass="-mt-4 invisible" />
+                    )}
+                    <label htmlFor="type_product" className=" text-right my-7 text-gray-500">
                       Type Product
                     </label>
                   </div>
@@ -75,39 +84,46 @@ export default function Create({typeProductPets}) {
                     <Input
                       type={"text"}
                       id={"name_product"}
-                      value={name_product}
                       onChange={(e) => {
                         setNameProduct(e.target.value)
                       }}
-                      customClass={"mb-5"}
+                      customClass="mb-5"
                     />
                     <Input
                       type={"text"}
                       id={"description_product"}
-                      value={description_product}
                       onChange={(e) => {
                         setDescriptionProduct(e.target.value)
                       }}
-                      customClass={"mb-5"}
+                      customClass="mb-5"
                     />
                     <Input
                       type={"number"}
                       id={"price_product"}
-                      value={price_product}
                       onChange={(e) => {
                         setPriceProduct(e.target.value)
                       }}
-                      customClass={"mb-5"}
+                      customClass="mb-5"
                     />
                     <Input
                       type={"number"}
                       id={"stock_product"}
-                      value={stock_product}
                       onChange={(e) => {
                         setStockProduct(e.target.value)
                       }}
-                      customClass={"mb-5"}
+                      customClass="mb-5"
                     />
+                    <File
+                      id={"file"}
+                      value={file}
+                      onChange={(e) => {
+                        setFile(e.target.files[0])
+                      }}
+                      customClass={errors.photo_product ? "" : "mb-5"}
+                    />
+                    {errors.photo_product && (
+                      <Alert message={errors.photo_product} />
+                    )}
                     <div className="relative z-10">
                       <ComboBox
                         id={"type_product"}
@@ -116,7 +132,7 @@ export default function Create({typeProductPets}) {
                         query={query}
                         setSelected={setSelected}
                         setQuery={setQuery}
-                        
+
                       />
                     </div>
                     <div className="mt-7 flex gap-5">

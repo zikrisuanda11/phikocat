@@ -46,7 +46,8 @@ export default function ProductPet({ datas, flash }) {
     name_product: data.name_product,
     price_product: data.price_product,
     stock_product: data.stock_product,
-    type_products: data.type_products.name_type
+    type_products: data.type_products.name_type,
+    photo_product: data.photo_product
   }))
 
   const columns = [
@@ -54,7 +55,22 @@ export default function ProductPet({ datas, flash }) {
     { field: 'name_product', headerName: 'Nama Product', width: 200 },
     { field: 'price_product', headerName: 'Harga Produk', width: 120 },
     { field: 'stock_product', headerName: 'Stok Produk', width: 120 },
-    { field: 'type_products', headerName: 'Type Produk', width: 200 },
+    { field: 'type_products', headerName: 'Type Produk', width: 150 },
+    {
+      field: 'photo_product',
+      headerName: 'Photo Produk url',
+      width: 200,
+      renderCell: (params) => {
+        const photoUrl = window.location.origin + params.row.photo_product;
+        return (
+          <>
+            <a target="blank" className="text-blue-500 hover:text-blue-700" href={photoUrl}>
+              {photoUrl}
+            </a>
+          </>
+        )
+      }
+    },
     {
       field: 'id',
       sortable: false,
@@ -102,13 +118,6 @@ export default function ProductPet({ datas, flash }) {
   return (
     <>
       <Layout>
-        {/* <Button
-          variant="contained"
-          onClick={() => setIsOpen(true)}
-          disableElevation
-        >
-          buka
-        </Button> */}
         <Modal
           icon={(
             <span className="text-red-600">
