@@ -27,6 +27,7 @@ class ProductPetRequest extends FormRequest
             'price_product' => 'required',
             'stock_product' => 'required',
             'type_product_id' => 'required',
+            'photo_product' => 'required'
         ];
     }
 
@@ -38,6 +39,7 @@ class ProductPetRequest extends FormRequest
             'price_product.required' => 'Harga produk wajib diisi.',
             'stock_product.required' => 'Stok produk wajib diisi.',
             'type_product_id.required' => 'Tipe produk wajib diisi.',
+            'photo_product.required' => 'Foto produk wajib diisi.',
         ];
     }
 }

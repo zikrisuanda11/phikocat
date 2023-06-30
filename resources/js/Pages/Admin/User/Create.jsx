@@ -14,8 +14,7 @@ const status = [
   { name: 'Non-Active', value: false },
 ]
 
-export default function Create({ errors, ziggy }) {
-  // console.log(ziggy);
+export default function Create({ errors }) {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [is_active, setIsActive] = useState();

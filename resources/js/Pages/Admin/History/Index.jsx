@@ -7,9 +7,6 @@ import Modal from "@/Components/Modal/Detail";
 import { usePage } from "@inertiajs/inertia-react";
 
 export default function ProductPet({ transactions, detail_transaction }) {
-  // const {url} = usePage()
-
-  console.log(detail_transaction);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -38,9 +35,9 @@ export default function ProductPet({ transactions, detail_transaction }) {
     { field: 'name_user', headerName: 'Nama Customer', width: 150 },
     { field: 'date_transaction', headerName: 'Tanggal Transaksi', width: 200 },
     { field: 'amount', headerName: 'Harga', width: 120 },
-    { field: 'type_transaction_name', headerName: 'Type Transaksi', width: 100 },
-    { field: 'type_payment', headerName: 'Type Pembayaran', width: 200 },
-    { field: 'status_transaction', headerName: 'Status Transaksi', width: 200 },
+    { field: 'type_transaction_name', headerName: 'Type Transaksi', width: 150 },
+    { field: 'type_payment', headerName: 'Type Pembayaran', width: 150 },
+    { field: 'status_transaction', headerName: 'Status Transaksi', width: 150 },
     { field: 'evidence_of_transfer', headerName: 'Bukti Transaksi', width: 200 },
     {
       field: 'id',

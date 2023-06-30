@@ -7,9 +7,10 @@ import Input from "@/Components/Input/Index";
 import ComboBox from "@/Components/ComboBox/Index"
 import { Inertia } from "@inertiajs/inertia";
 import { useEffect } from "react";
+import File from "@/Components/Input/File";
+import Alert from "@/Components/Alert";
 
-
-export default function Edit({productPet, typeProductPets}) {
+export default function Edit({productPet, typeProductPets, errors}) {
   const [name_product, setNameProduct] = useState(productPet.name_product);
   const [description_product, setDescriptionProduct] = useState(productPet.description_product);
   const [price_product, setPriceProduct] = useState(productPet.price_product);
@@ -17,6 +18,7 @@ export default function Edit({productPet, typeProductPets}) {
   const [type_product_id, setTypeProductId] = useState(productPet.type_product_id);
   const [selected, setSelected] = useState(typeProductPets.find(item => item.id === productPet.type_product_id));
   const [query, setQuery] = useState('');
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     setTypeProductId(selected.id)
@@ -25,12 +27,13 @@ export default function Edit({productPet, typeProductPets}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Inertia.put(`/products/${productPet.id}`, {
+    Inertia.post(`/products/${productPet.id}`, {
       name_product: name_product,
       description_product: description_product,
       price_product: price_product,
       stock_product: stock_product,
-      type_product_id: type_product_id
+      type_product_id: type_product_id,
+      photo_product: file
     })
   }
 
@@ -67,7 +70,13 @@ export default function Edit({productPet, typeProductPets}) {
                     <label htmlFor="stock_product" className=" text-right my-7 text-gray-500">
                       Stock Product
                     </label>
-                    <label htmlFor="type_product" className=" text-right my-2 text-gray-500">
+                    <label className="text-right my-2 text-gray-500">
+                      Photo Product
+                    </label>
+                    {errors.photo_product && (
+                      <Alert customClass="-mt-4 invisible" />
+                    )}
+                    <label htmlFor="type_product" className=" text-right mt-7 text-gray-500">
                       Type Product
                     </label>
                   </div>
@@ -108,6 +117,17 @@ export default function Edit({productPet, typeProductPets}) {
                       }}
                       customClass={"mb-5"}
                     />
+                    <File
+                      id={"file"}
+                      value={file}
+                      onChange={(e) => {
+                        setFile(e.target.files[0])
+                      }}
+                      customClass={errors.photo_product ? "" : "mb-5"}
+                    />
+                    {errors.photo_product && (
+                      <Alert message={errors.photo_product} />
+                    )}
                     <div className="relative z-10">
                       <ComboBox
                         id={"type_product"}

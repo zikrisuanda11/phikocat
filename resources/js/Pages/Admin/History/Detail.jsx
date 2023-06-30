@@ -9,12 +9,6 @@ import { FaRegAddressCard } from 'react-icons/fa';
 
 export default function ProductPet({ transaction }) {
 
-  console.log(transaction);
-
-  // const total_price_service = 1 * transaction.detail_transaction.service_pet.price_service;
-  // const total_price_product = transaction.detail_transaction.quantity * transaction.detail_transaction.product_pets.price_product;
-  // const subtotal = total_price_product + total_price_service
-
   const dateTransaction = new Date(transaction.date_transaction)
 
   return (
