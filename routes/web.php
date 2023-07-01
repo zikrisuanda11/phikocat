@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\ProductPetController;
 use App\Http\Controllers\Admin\ServicePetController;
 use App\Http\Controllers\Admin\TypeProductController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,8 +46,13 @@ Route::get('/', function () {
     return Inertia::render('Landing/index');
 });
 
+Route::get('/product', [ProductController::class, 'index'])->name('product');
+Route::get('/product-list', [ProductController::class, 'show']);
 
-Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::post('/cart', [CartController::class, 'store']);
+
+
+// Route::get('home', [\App\Http\Controllers\HomeController::class, 'index']);
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

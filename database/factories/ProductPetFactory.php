@@ -21,7 +21,8 @@ class ProductPetFactory extends Factory
             'description_product' => fake()->word(),
             'price_product' => fake()->numberBetween(10000, 100000),
             'stock_product' => fake()->numberBetween(100, 1000),
-            'type_product_id' => fake()->numberBetween(1, 25)
+            'type_product_id' => fake()->numberBetween(1, 25),
+            'photo_product' => fake()->imageUrl()
         ];
     }
 }

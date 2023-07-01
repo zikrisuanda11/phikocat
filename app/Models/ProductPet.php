@@ -21,8 +21,13 @@ class ProductPet extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function Cart()
+    {
+        return $this->hasMany(Cart::class, 'product_id', 'id');
+    }
+
     public function detailTransaction()
     {
-        return $this->hasOne(DetailTransaction::class);
+        return $this->hasMany(DetailTransaction::class);
     }
 }
