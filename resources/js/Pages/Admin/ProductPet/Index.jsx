@@ -29,13 +29,13 @@ export default function ProductPet({ datas, flash }) {
     setIsOpenModal(true)
   }
 
-  // useEffect(() => {
-  //   if (flash.message) {
-  //     setIsOpen(true);
-  //   }
-  // }, [
-  //   flash.message
-  // ]);
+  useEffect(() => {
+    if (flash.message) {
+      setIsOpen(true);
+    }
+  }, [
+    flash.message
+  ]);
 
   const handleDelete = () => {
     Inertia.delete(`/products/${modalContent.current.id}`)
@@ -135,7 +135,7 @@ export default function ProductPet({ datas, flash }) {
           onClose={handleOnClose}
           actionConfirm={modalContent.current.actionConfirm}
         />
-        {/* {flash.message && <Popup
+        {flash.message && <Popup
           icon={(
             <span className="text-green-600">
               <svg
@@ -158,7 +158,7 @@ export default function ProductPet({ datas, flash }) {
           message={flash.message}
           isOpen={isOpen}
           onClose={handleOnClose}
-        />} */}
+        />}
 
         <div className="container m-5">
           <div className="flex-col mr-8">

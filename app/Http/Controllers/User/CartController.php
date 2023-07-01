@@ -3,22 +3,18 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProductPet;
+use App\Models\Cart;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
-class ProductController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = $request->query('keywords');
-        $product = ProductPet::where('name_product', 'ILIKE', "%{$query}%")->get();
-        return Inertia::render('Product/index', [
-            'product' => $product,
-        ]);
+        //
     }
 
     /**
@@ -34,14 +30,23 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $productId = $request->product_id;
+        // dd($productId);
+        Cart::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $productId,
+            'quantity' => 1
+        ]);
+
+        return redirect('/product')->with('message', 'Berhasil menambahkan ke keranjang');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(string $id)
     {
+        //
     }
 
     /**

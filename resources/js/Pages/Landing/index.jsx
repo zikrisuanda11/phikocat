@@ -10,7 +10,6 @@ import IndexLayout from "@/Layouts/IndexLayout";
 
 function Landing(){
   const {auth} = usePage().props
-  console.log(auth)
 
   return (
     <IndexLayout auth={auth}>
@@ -40,7 +39,9 @@ function Landing(){
                 Produk yang kami jual adalah produk yang memiliki kualitas terbaik untuk di konsumsi peliharaan kamu
                 dalam hal ini kami telah memastikan kualitasnya dan telah di konsumsi oleh banyak berbagai macam jenis peliharaan
               </p>
-              <Button variant="contained" color="primary" disableElevation sx={{marginTop: 1, textTransform: 'capitalize'}}>Klik untuk lihat produk</Button>
+              <Link href={route('product')} className="grid">
+                <Button variant="contained" color="primary" disableElevation sx={{marginTop: 1, textTransform: 'capitalize'}}>Klik untuk lihat produk</Button>
+              </Link>
             </div>
             <div className="w-[20rem] h-auto hover:shadow-lg p-6 rounded-lg text-black bg-white flex flex-col gap-5">
               <p className="font-semibold text-2xl h-16 my-auto">Pets Grooming</p>
