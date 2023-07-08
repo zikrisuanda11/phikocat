@@ -28,7 +28,7 @@ export default function Create({ user, errors }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Inertia.put(`/users/${user.id}`, {
+    Inertia.put(`/admin/users/${user.id}`, {
       name: name,
       email: email,
       is_active: is_active,
@@ -45,8 +45,8 @@ export default function Create({ user, errors }) {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Users', href: '/users', key: '1' },
-                    { name: 'Table', href: '/users', key: '2' },
+                    { name: 'Users', href: '/admin/users', key: '1' },
+                    { name: 'Table', href: '/admin/users', key: '2' },
                     { name: 'Create User', key: '3' },
                   ]}
                 />
@@ -120,7 +120,7 @@ export default function Create({ user, errors }) {
                           title={'Cancel'}
                           backgroundColor={'#C7E7E1'}
                           textColor={'#124C5F'}
-                          href={'/users'}
+                          href={'/admin/users'}
                         />
                       </div>
                     </div>

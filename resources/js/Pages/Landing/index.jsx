@@ -2,17 +2,17 @@ import Buttons from "@/Components/Buttons/Index"
 import { KeyboardArrowRight } from "@mui/icons-material";
 import HeaderImage from "../../../../public/header-img.png";
 import { Link } from "@inertiajs/react";
-import { usePage } from "@inertiajs/react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react"
 import { Button } from "@mui/material";
 import Navbar from "@/Components/Navbar";
 import IndexLayout from "@/Layouts/IndexLayout";
 
 
-function Landing(){
+function Landing({count_product}){
   const {auth} = usePage().props
 
   return (
-    <IndexLayout auth={auth}>
+    <IndexLayout auth={auth} count_product={count_product}>
         {/* header section */}
         <header className="h-[70vh] grid grid-cols-2 content-center px-24 py-3">
           <div className="flex flex-col gap-5 my-auto">
@@ -39,9 +39,9 @@ function Landing(){
                 Produk yang kami jual adalah produk yang memiliki kualitas terbaik untuk di konsumsi peliharaan kamu
                 dalam hal ini kami telah memastikan kualitasnya dan telah di konsumsi oleh banyak berbagai macam jenis peliharaan
               </p>
-              <Link href={route('product')} className="grid">
+              <InertiaLink href={route('product.index')} className="grid">
                 <Button variant="contained" color="primary" disableElevation sx={{marginTop: 1, textTransform: 'capitalize'}}>Klik untuk lihat produk</Button>
-              </Link>
+              </InertiaLink>
             </div>
             <div className="w-[20rem] h-auto hover:shadow-lg p-6 rounded-lg text-black bg-white flex flex-col gap-5">
               <p className="font-semibold text-2xl h-16 my-auto">Pets Grooming</p>

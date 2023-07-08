@@ -22,6 +22,8 @@ class ProductPetController extends Controller
         return inertia('Admin/ProductPet/Index', [
             'datas' => $datas
         ]);
+
+        // return route('products.index')
     }
 
     /**
@@ -48,6 +50,7 @@ class ProductPetController extends Controller
      */
     public function store(ProductPetRequest $request)
     {
+        // dd($request->header('X-Inertia-Version'));
         $path = Storage::put('public/product_image', $request->file('photo_product'));
         $pathUrl = Storage::url($path);
 

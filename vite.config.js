@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import react from '@vitejs/plugin-react';
+import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
     plugins: [
@@ -9,5 +10,7 @@ export default defineConfig({
             refresh: true,
         }),
         react(),
+        // mkcert()
     ],
+    // server: { https: true },
 });

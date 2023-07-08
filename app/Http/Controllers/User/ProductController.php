@@ -16,6 +16,9 @@ class ProductController extends Controller
     {
         $query = $request->query('keywords');
         $product = ProductPet::where('name_product', 'ILIKE', "%{$query}%")->get();
+        // return inertia('Product/index', [
+        //     'product' => $product
+        // ]);
         return Inertia::render('Product/index', [
             'product' => $product,
         ]);

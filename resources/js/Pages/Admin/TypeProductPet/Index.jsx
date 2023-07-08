@@ -36,7 +36,7 @@ export default function TypeProduct({ datas, flash }) {
   }, [flash.message]);
 
   const handleDelete = () => {
-    Inertia.delete(`/type-products/${modalContent.current.id}`)
+    Inertia.delete(`/admin/type-products/${modalContent.current.id}`)
     handleOnClose();
   }
 
@@ -76,7 +76,7 @@ export default function TypeProduct({ datas, flash }) {
                 title={'Edit'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                href={`/type-products/${params.id}/edit`}
+                href={`/admin/type-products/${params.id}/edit`}
               />
               <Buttons
                 variant={'contained'}
@@ -142,14 +142,14 @@ export default function TypeProduct({ datas, flash }) {
                 <h1 className="text-lg font-semibold text-gray-900">Produk</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'TypeProduct', href: '/type-products', color: 'inherit', key: '1' },
+                    { name: 'TypeProduct', href: '/admin/type-products', color: 'inherit', key: '1' },
                     { name: 'Table', color: 'text.primary', key: '2' },
                   ]}
                 />
               </div>
               <div >
                 <Buttons
-                  href={'/type-products/create'}
+                  href={'/admin/type-products/create'}
                   variant={'contained'}
                   size={'medium'}
                   title={'Tambah Data'}

@@ -24,7 +24,7 @@ export default function Create() {
 
     e.preventDefault();
 
-    Inertia.post('/services', {
+    Inertia.post('/admin/services', {
       name_service: name_service,
       price_service: price_service,
       type_service: type_service,
@@ -42,8 +42,8 @@ export default function Create() {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Services', href: '/services', key: '1' },
-                    { name: 'Table', href: '/services', key: '2' },
+                    { name: 'Services', href: '/admin/services', key: '1' },
+                    { name: 'Table', href: '/admin/services', key: '2' },
                     { name: 'Create Service', key: '3' },
                   ]}
                 />
@@ -115,7 +115,7 @@ export default function Create() {
                           title={'Cancel'}
                           backgroundColor={'#C7E7E1'}
                           textColor={'#124C5F'}
-                          href={'/services'}
+                          href={'/admin/services'}
                         />
                       </div>
                     </div>

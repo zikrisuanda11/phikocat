@@ -27,7 +27,7 @@ export default function Edit({productPet, typeProductPets, errors}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Inertia.post(`/products/${productPet.id}`, {
+    Inertia.post(`/admin/products/${productPet.id}`, {
       name_product: name_product,
       description_product: description_product,
       price_product: price_product,
@@ -47,8 +47,8 @@ export default function Edit({productPet, typeProductPets, errors}) {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Product', href: '/products' ,key: '1' },
-                    { name: 'Table', href: '/products', key: '1' },
+                    { name: 'Product', href: '/admin/products' ,key: '1' },
+                    { name: 'Table', href: '/admin/products', key: '1' },
                     { name: 'Create Product', key: '2' },
                   ]}
                 />
@@ -156,7 +156,7 @@ export default function Edit({productPet, typeProductPets, errors}) {
                           title={'Cancel'}
                           backgroundColor={'#C7E7E1'}
                           textColor={'#124C5F'}
-                          href={'/products'}
+                          href={'/admin/products'}
                         />
                       </div>
                     </div>

@@ -12,7 +12,7 @@ export default function Create({}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Inertia.post('/type-products', {
+    Inertia.post('/admin/type-products', {
       name_type: name_type,
     })
   }
@@ -27,8 +27,8 @@ export default function Create({}) {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'TypeProduct', href: '/type-products' ,key: '1' },
-                    { name: 'Table', href: '/type-products', key: '2' },
+                    { name: 'TypeProduct', href: '/admin/type-products' ,key: '1' },
+                    { name: 'Table', href: '/admin/type-products', key: '2' },
                     { name: 'Create TypeProduct', key: '3' },
                   ]}
                 />
@@ -69,7 +69,7 @@ export default function Create({}) {
                           title={'Cancel'}
                           backgroundColor={'#C7E7E1'}
                           textColor={'#124C5F'}
-                          href={'/type-products'}
+                          href={'/admin/type-products'}
                         />
                       </div>
                     </div>

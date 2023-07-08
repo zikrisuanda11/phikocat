@@ -1,48 +1,55 @@
 import IndexLayout from "@/Layouts/IndexLayout"
-import { usePage } from "@inertiajs/react"
-import { Card, CardActions, CardContent, CardMedia, IconButton, TextField } from "@mui/material"
+import { usePage } from "@inertiajs/inertia-react"
+import { Card, CardActions, CardContent, CardMedia } from "@mui/material"
 import { IconShoppingCartPlus } from "@tabler/icons-react"
 import RupiahFormat from "@/Helper/RupiahFormat"
-import { useState } from "react"
 import { useEffect } from "react"
 import { Inertia } from "@inertiajs/inertia"
 import SearchFilter from "@/Shared/SearchFilter"
+import toast, { Toaster } from 'react-hot-toast';
 
-function Product({product, flash}){
-  const {auth} = usePage().props
-  console.log(flash)
+export default function Product({ product, flash, count_product }) {
+  const { auth } = usePage().props
 
-  const handleCart = (id) => {
-    Inertia.post('/cart', {
-      product_id: id
-    })
-  }
-
-  const [isOpen, setIsOpen] = useState(false)
+  console.log(flash);
 
   useEffect(() => {
     if (flash.message) {
-      setIsOpen(true);
+      toast(flash.message, {
+        icon: '✅'
+      })
     }
-  }, [
-    flash.message
-  ]);
+    Inertia.post('/clear-flash')
+  }, [flash.message])
+
+
+  const handleCart = (e, id) => {
+    e.preventDefault();
+
+    Inertia.post('/cart', {
+      product_id: id
+    }, { preserveScroll: true })
+  }
 
   return (
-    <IndexLayout auth={auth}>
+    <IndexLayout auth={auth} count_product={count_product}>
       <div className="flex flex-col mt-10">
         <p className="text-center text-3xl font-semibold">Produk Pet</p>
         <SearchFilter url={'product'} />
+        <Toaster/>
       </div>
       <div className="px-10 py-10 flex flex-wrap gap-10 justify-center">
-        {product ? 
+        {product ?
           product.map((data, index) => (
             <Card sx={{
               width: 250,
               boxShadow: 0,
               border: 1,
               borderColor: '#e2e8f0'
-            }}>
+            }}
+              key={data.id}
+            >
+
               <CardMedia
                 component="img"
                 alt="green iguana"
@@ -71,42 +78,23 @@ function Product({product, flash}){
                 justifyContent: 'end',
                 padding: 3
               }}>
-                <IconButton size="small" color="primary">
-                  <IconShoppingCartPlus onClick={() => handleCart(data.id)} />
-                </IconButton>            
+                {auth.user != null &&
+                  // <Link as="button" onClick={() => handleCart(data.id)} >
+                  //   <IconShoppingCartPlus />
+                  // </Link>
+                  <form onSubmit={(e) => handleCart(e, data.id)}>
+                    <button type="submit">
+                      <IconShoppingCartPlus />
+                    </button>
+                  </form>
+                }
               </CardActions>
             </Card>
-          )): 
+          )) :
           ''
         }
       </div>
-
-      {flash.message && <Popup
-          icon={(
-            <span className="text-green-600">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-6 w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </span>
-          )}
-          title={"Success"}
-          message={flash.message}
-          isOpen={isOpen}
-          onClose={handleOnClose}
-      />}
+      {/* {flash.message && <Toaster />} */}
     </IndexLayout>
   )
 }
-
-export default Product

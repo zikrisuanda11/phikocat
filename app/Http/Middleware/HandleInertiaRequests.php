@@ -2,10 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\ProductPet;
-use Illuminate\Http\Request;
+use App\Models\Cart;
+use App\Models\User;
 use Inertia\Middleware;
+use App\Models\ProductPet;
 use Tightenco\Ziggy\Ziggy;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -31,36 +34,39 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if($request->user()){
+        if (auth()->user()) {
+            $adminRole = Role::where('name', 'admin')->first();
+            $adminUsers = $adminRole->users()->get();
             $product = ProductPet::all();
-
             return array_merge(parent::share($request), [
                 'flash' => [
-                    'message' => $request->session()->get('success'),
+                    'message' => $request->session()->get('message'),
                 ],
                 'auth' => [
                     'user' => $request->user(),
                     'product' => $product
                 ],
+                'admin' => $adminUsers,
                 'ziggy' => function () use ($request) {
                     return array_merge((new Ziggy)->toArray(), [
                         'location' => $request->url(),
                     ]);
                 },
+                'count_product' => Cart::where('user_id', auth()->user()->id)->count()
             ]);
         } else {
             return array_merge(parent::share($request), [
                 'flash' => [
-                    'message' => $request->session()->get('success'),
+                    'message' => $request->session()->get('message'),
                 ],
                 'auth' => [
-                    'user' => $request->user()
+                    'user' => $request->user(),
                 ],
                 'ziggy' => function () use ($request) {
                     return array_merge((new Ziggy)->toArray(), [
                         'location' => $request->url(),
                     ]);
-                },
+                }
             ]);
         }
     }

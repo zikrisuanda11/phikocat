@@ -1,22 +1,29 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Layout from "@/Layouts/Default";
 import Buttons from "@/Components/Buttons/Index";
 import Breadcrumb from '@/Components/Breadcrumb/Index'
 import Modal from "@/Components/Modal/Detail";
 import { usePage } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
+import toast, { Toaster } from 'react-hot-toast';
 import RupiahFormat from "@/Helper/RupiahFormat";
 
-export default function ProductPet({ transactions, detail_transaction }) {
+export default function ConfirmPayment({ transactions, flash }) {
+  // console.log(transactions);
+  console.log(flash);
 
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  useEffect(() => {
+    if (flash.message) {
+      toast.success(flash.message)
+    }
+    Inertia.post('/clear-flash')
+  }, [flash.message])
 
-  const handleOnClose = () => {
-    setIsOpenModal(false)
-  }
-
-  const openModal = () => {
-    setIsOpenModal(true)
+  const handleConfirm = (id) => {
+    Inertia.put('/admin/confirm', {
+      id: id
+    })
   }
 
   const rows = transactions.map((transaction, idx) => ({
@@ -46,7 +53,6 @@ export default function ProductPet({ transactions, detail_transaction }) {
     { field: 'type_transaction_name', headerName: 'Type Transaksi', width: 130 },
     { field: 'type_payment', headerName: 'Type Pembayaran', width: 150 },
     { field: 'status_transaction', headerName: 'Status Transaksi', width: 120 },
-    // { field: 'evidence_of_transfer', headerName: 'Bukti Transaksi', width: 200 },
     {
       field: 'id',
       sortable: false,
@@ -55,19 +61,21 @@ export default function ProductPet({ transactions, detail_transaction }) {
       align: 'center',
       width: 100,
       renderCell: (params) => {
+        // console.log(params);
         return (
           <>
-            <div className="">
+            {params.row.status_transaction == 'pending' &&
               <Buttons
+                onClick={() => {handleConfirm(params.row.id)}}
                 variant={'contained'}
                 size={'medium'}
-                title={'View'}
+                title={'Confirm'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                href={`/admin/histories/${params.id}/detail`}
+                // href={`/admin/histories/${params.id}/detail`}
                 disableElevation
               />
-            </div>
+            }
           </>
         )
       }
@@ -77,13 +85,8 @@ export default function ProductPet({ transactions, detail_transaction }) {
   return (
     <>
       <Layout>
-        <Modal
-          icon={""}
-          title={"Detail"}
-          message="Detail"
-          isOpen={isOpenModal}
-          onClose={handleOnClose}
-          detailTransaction={detail_transaction}
+        <Toaster
+          position="top-right"
         />
         <div className="container m-5">
           <div className="flex-col mr-8">

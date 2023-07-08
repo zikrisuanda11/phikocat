@@ -35,7 +35,7 @@ export default function ServicePet({ servicePets, flash }) {
   }, [flash.message]);
 
   const handleDelete = () => {
-    Inertia.delete(`/services/${modalContent.current.id}`)
+    Inertia.delete(`/admin/services/${modalContent.current.id}`)
     handleOnClose();
   }
 
@@ -81,7 +81,7 @@ export default function ServicePet({ servicePets, flash }) {
                 title={'Edit'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                href={`/services/${params.id}/edit`}
+                href={`/admin/services/${params.id}/edit`}
               />
               <Buttons
                 variant={'contained'}
@@ -148,7 +148,7 @@ export default function ServicePet({ servicePets, flash }) {
                 <h1 className="text-lg font-semibold text-gray-900">Produk</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Service Pet', href: '/services', color: 'inherit', key: '1' },
+                    { name: 'Service Pet', href: '/admin/services', color: 'inherit', key: '1' },
                     { name: 'Table', color: 'text.primary', key: '2' },
                   ]}
                 />
@@ -159,7 +159,7 @@ export default function ServicePet({ servicePets, flash }) {
                   size={'medium'}
                   title={'Tambah Data'}
                   backgroundColor={'#124C5F'}
-                  href={'/services/create'}
+                  href={'/admin/services/create'}
                 />
               </div>
             </div>

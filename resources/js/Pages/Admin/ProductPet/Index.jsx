@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { usePage } from "@inertiajs/inertia-react"
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useState, useEffect } from "react";
 import { Inertia } from "@inertiajs/inertia";
@@ -38,8 +39,8 @@ export default function ProductPet({ datas, flash }) {
   ]);
 
   const handleDelete = () => {
-    Inertia.delete(`/products/${modalContent.current.id}`)
-    handleOnClose();
+    Inertia.delete(`/admin/products/${modalContent.current.id}`)
+    handleOnClose();isOpen
   }
 
   const rows = datas.map((data, idx) => ({
@@ -53,10 +54,10 @@ export default function ProductPet({ datas, flash }) {
   }))
 
   const columns = [
-    { field: 'no', headerName: 'No', width: 120, headerAlign: 'center', align: 'center' },
+    { field: 'no', headerName: 'No', width: 70, headerAlign: 'center', align: 'center' },
     { field: 'name_product', headerName: 'Nama Product', width: 200 },
     { field: 'price_product', headerName: 'Harga Produk', width: 120 },
-    { field: 'stock_product', headerName: 'Stok Produk', width: 120 },
+    { field: 'stock_product', headerName: 'Stok Produk', width: 100 },
     { field: 'type_products', headerName: 'Type Produk', width: 150 },
     {
       field: 'photo_product',
@@ -100,7 +101,7 @@ export default function ProductPet({ datas, flash }) {
                 title={'Edit'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                href={`/products/${params.id}/edit`}
+                href={`/admin/products/${params.id}/edit`}
               />
               <Buttons
                 variant={'contained'}
@@ -167,7 +168,7 @@ export default function ProductPet({ datas, flash }) {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Product', href: '/products', color: 'inherit', key: '1' },
+                    { name: 'Product', href: '/admin/products', color: 'inherit', key: '1' },
                     { name: 'Table', color: 'text.primary', key: '2' },
                   ]}
                 />
@@ -178,7 +179,7 @@ export default function ProductPet({ datas, flash }) {
                   size={'medium'}
                   title={'Tambah Data'}
                   backgroundColor={'#124C5F'}
-                  href={'/products/create'}
+                  href={'/admin/products/create'}
                 />
               </div>
             </div>
