@@ -10,7 +10,7 @@ class ConfirmController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with('detailTransactions', 'user', 'typeTransaction')->orderBy('date_transaction', 'desc')->get();
+        $transactions = Transaction::with('detailTransactions', 'user', 'typeTransaction')->where('type_payment', 'cod')->orderBy('date_transaction', 'desc')->get();
         return inertia('Admin/ConfirmPayment/index', [
             'transactions' => $transactions
         ]);

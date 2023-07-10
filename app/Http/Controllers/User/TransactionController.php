@@ -40,12 +40,14 @@ class TransactionController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function paymentTransfer($snap_token)
     {
-        //
+        // dd($snap_token);
+        $midtransClientKey = config('services.midtrans.client');
+        return inertia('Customer/Transaction/process', [
+            'snapToken' => $snap_token,
+            'midtransClientKey' => $midtransClientKey
+        ]);
     }
 
     /**
@@ -117,16 +119,17 @@ class TransactionController extends Controller
     
                     $snapToken = \Midtrans\Snap::getSnapToken($params);
     
-                    Cart::where('user_id', $request->user_id)->delete();
+                    Cart::where('user_id', $user->id)->delete();
     
                     DB::commit();
     
                     // apakah disini berupa redirect saja? 
-                    return inertia('Cart/index', [
-                        'status' => 'success',
-                        'snapToken' => $snapToken,
-                        'dataTransaction' => $transaction
-                    ]);
+                    return redirect()->route('transaction.paymentTransfer', ['snap_token' => $snapToken]);
+                    // return inertia('Cart/index', [
+                    //     'status' => 'success',
+                    //     'snapToken' => $snapToken,
+                    //     'dataTransaction' => $transaction
+                    // ]);
     
                 } catch (\Exception $e) {
                     DB::rollBack();

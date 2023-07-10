@@ -52,7 +52,7 @@ class HandleInertiaRequests extends Middleware
                         'location' => $request->url(),
                     ]);
                 },
-                'count_product' => Cart::where('user_id', auth()->user()->id)->count()
+                'count_product' => Cart::where('user_id', auth()->user()->id)->count(),
             ]);
         } else {
             return array_merge(parent::share($request), [

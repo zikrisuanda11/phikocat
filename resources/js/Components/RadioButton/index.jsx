@@ -21,7 +21,7 @@ export default function RadioButton({value, setValue}) {
         onChange={handleChange}
         sx={{
           fontWeight: 'Bold',
-          fontSize: 12,
+          // fontSize: 18,
           fontFamily: 'Inter',
         }}
       >
@@ -29,7 +29,7 @@ export default function RadioButton({value, setValue}) {
           value="cod"
           control={<Radio />}
           label={(
-            <div className='flex gap-2 items-center font-sans text-sm'>
+            <div className='flex gap-2 items-center font-sans '>
               <BiMoney />
               <p>
                 Tunai
@@ -42,7 +42,7 @@ export default function RadioButton({value, setValue}) {
           value="transfer"
           control={<Radio />}
           label={(
-            <div className='flex gap-2 items-center font-sans text-sm'>
+            <div className='flex gap-2 items-center font-sans '>
               <BiSolidCreditCard />
               <p>
                 Transfer

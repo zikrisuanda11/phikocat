@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HistoryController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\TransactionController;
 
 /*
@@ -29,3 +30,5 @@ Route::get('tes', function(){
     return 'ini test';
 });
 Route::post('midtrans-callback', [TransactionController::class, 'callback']);
+
+Route::post('update-profile/{id}', [ProfileController::class, 'update']);

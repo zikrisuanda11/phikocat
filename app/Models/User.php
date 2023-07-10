@@ -23,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'is_active',
-        'address'
+        'phone',
+        'photo_profile',
+
     ];
 
     /**
@@ -53,5 +55,10 @@ class User extends Authenticatable
     public function Cart()
     {
         return $this->hasMany(Cart::class, 'user_id', 'id');
+    }
+
+    public function CartServices()
+    {
+        return $this->hasMany(Cart::class, 'id_customer');
     }
 }

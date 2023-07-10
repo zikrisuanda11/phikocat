@@ -137,4 +137,9 @@ class CartController extends Controller
         $cart = Cart::find($id);
         $cart->delete();
     }
+
+    public function success()
+    {
+
+    }
 }

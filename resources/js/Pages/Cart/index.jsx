@@ -9,10 +9,12 @@ import { Inertia } from "@inertiajs/inertia";
 import RadioButton from "@/Components/RadioButton";
 import toast, { Toaster } from 'react-hot-toast';
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+// const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-export default function Cart({ flash, auth, carts, total_price, midtranClientKey, snapToken, status }) {
+export default function Cart({ flash, auth, carts, total_price, status }) {
+  const label = { inputProps: carts.id }
 
+  console.log(status);
   const [typePayment, setTypePayment] = React.useState('cod');
 
   const handleDeleteCart = (id) => {
@@ -37,29 +39,13 @@ export default function Cart({ flash, auth, carts, total_price, midtranClientKey
       type_payment: typePayment
     });
   }
-  console.log(flash);
+
   useEffect(() => {
     if (flash.message) {
       toast(flash.message)
     }
     Inertia.post('/clear-flash')
   }, [flash.message])
-
-  useEffect(() => {
-    const snapSrcUrl = 'https://app.sandbox.midtrans.com/snap/snap.js';
-    const myMidtransClientKey = midtranClientKey; //change this according to your client-key
-
-    const script = document.createElement('script');
-    script.src = snapSrcUrl;
-    script.setAttribute('data-client-key', myMidtransClientKey);
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    }
-  }, []);
 
   return (
     <>
@@ -70,27 +56,16 @@ export default function Cart({ flash, auth, carts, total_price, midtranClientKey
           <div className="w-full">
             <div className="flex gap-5 mx-56 justify-center  mt-10">
               <div className=" border shadow-md w-8/12 rounded-xl h-min-fit">
-                <header className="flex justify-between my-2 items-center">
-                  <div className="text-gray-500">
-                    <Checkbox {...label} defaultChecked />
-                    select all
-                  </div>
-                  <div className="text-gray-500 mx-5">
-                    <button>Delete</button>
-                  </div>
-                </header>
-                <Divider />
                 {/* begin::product */}
                 {carts.length > 0 ?
                   carts.map((cart, index) => {
                     return (
                       <React.Fragment key={cart.id}>
                         <div className="flex items-center my-2">
-                          <div>
-                            <Checkbox {...label} defaultChecked />
+                          <div className="w-3/12  flex justify-center">
+                            <img src={cart.product_pet.photo_product} className="object-contain h-32 w-auto" />
                           </div>
-                          <img src={cart.product_pet.photo_product} className="w-32 h-auto" />
-                          <div className="w-full">
+                          <div className="w-9/12">
                             <div className="flex justify-between items-center">
                               <div className="flex flex-col ml-2">
                                 <div>
@@ -123,6 +98,7 @@ export default function Cart({ flash, auth, carts, total_price, midtranClientKey
                             </div>
                           </div>
                         </div>
+                        <Divider />
                       </React.Fragment>
                     )
                   })
@@ -135,7 +111,7 @@ export default function Cart({ flash, auth, carts, total_price, midtranClientKey
               </div>
               <div className="h-fit flex flex-col border shadow-md w-4/12 p-5 rounded-xl">
                 <div>
-                  <div className="text-gray-500 text-sm">Payment Method.</div>
+                  <div className="text-gray-500">Payment Method.</div>
                   <div>
                     <RadioButton
                       value={typePayment}
@@ -147,14 +123,6 @@ export default function Cart({ flash, auth, carts, total_price, midtranClientKey
                   <h3 className="">Subtotal</h3>
                   <p className="text-primary font-bold text-xs">{RupiahFormat(total_price)}</p>
                 </div>
-                {/* {typePayment === 'cod' &&
-              } */}
-                {status === 'success' &&
-                  <>
-                    <div id="snap-container"></div>
-                    {window.snap.pay({ snapToken })}
-                  </>
-                }
                 <div>
                   <CustomButton
                     title={'Checkout (' + carts.length + ')'}

@@ -30,7 +30,7 @@ function Landing({count_product}){
           </div>
         </header>
 
-        <section className="px-10 py-20">
+        <section className="px-10 py-28">
           <h4 className="text-3xl text-center my-10">Pelayanan Servis Kami</h4>
           <div className="flex flex-wrap justify-center gap-20">
             <div className="w-[20rem] h-auto hover:shadow-lg p-6 rounded-lg text-black bg-white flex flex-col gap-5">
@@ -44,11 +44,11 @@ function Landing({count_product}){
               </InertiaLink>
             </div>
             <div className="w-[20rem] h-auto hover:shadow-lg p-6 rounded-lg text-black bg-white flex flex-col gap-5">
-              <p className="font-semibold text-2xl h-16 my-auto">Pets Grooming</p>
+              <p className="font-semibold text-2xl h-16 my-auto">Pets Grooming & Pet Hotel</p>
               <p className="h-32">
                 proses perawatan dan perbaikan penampilan fisik hewan peliharaan, seperti anjing, kucing, dan hewan peliharaan lainnya. 
               </p>
-              <Button variant="contained" color="primary" disableElevation sx={{marginTop: 1, textTransform: 'capitalize'}}>Pesan pets Grooming</Button>
+              <Button href="services" variant="contained" color="primary" disableElevation sx={{marginTop: 1, textTransform: 'capitalize'}}>Pesan pets Grooming</Button>
             </div>
           </div>
         </section>
