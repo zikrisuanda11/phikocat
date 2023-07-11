@@ -12,7 +12,7 @@ function Landing({count_product}){
   const {auth} = usePage().props
 
   return (
-    <IndexLayout auth={auth} count_product={count_product}>
+    <IndexLayout>
         {/* header section */}
         <header className="h-[70vh] grid grid-cols-2 content-center px-24 py-3">
           <div className="flex flex-col gap-5 my-auto">

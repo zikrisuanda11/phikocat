@@ -6,9 +6,8 @@ import RupiahFormat from "@/Helper/RupiahFormat";
 import { useEffect } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { Inertia } from "@inertiajs/inertia";
-import { duration } from "@mui/material";
 
-export default function status({ flash, auth, transaction, transactionDetail, admin, count_product }) {
+export default function status({ flash,  transaction, transactionDetail, admin }) {
   console.log(flash);
 
   useEffect(() => {

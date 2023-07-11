@@ -32,7 +32,7 @@ export default function Product({ product, flash, count_product }) {
   }
 
   return (
-    <IndexLayout auth={auth} count_product={count_product}>
+    <IndexLayout>
       <div className="flex flex-col mt-10  justify-center items-center">
         <h4 className="text-3xl my-4">Produk Pet</h4>
         <SearchFilter url={'product.index'} />

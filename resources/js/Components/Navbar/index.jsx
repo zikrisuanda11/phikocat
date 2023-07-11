@@ -1,5 +1,5 @@
 import React from 'react';
-import { InertiaLink, Link } from '@inertiajs/inertia-react'
+import { InertiaLink, Link, usePage } from '@inertiajs/inertia-react'
 import Logo from "../../../../public/assets/logo/logo.png"
 import Buttons from "../Buttons/Index"
 import { Inertia } from "@inertiajs/inertia";
@@ -9,7 +9,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-export default function Navbar({ auth, count_product }) {
+export default function Navbar() {
+  const { count_product, auth } = usePage().props;
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 

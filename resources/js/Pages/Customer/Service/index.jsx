@@ -3,7 +3,7 @@ import IndexLayout from "@/Layouts/IndexLayout";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import { Button } from "@mui/material";
 
-export default function index({ auth, services }) {
+export default function index({ auth, services, count_product }) {
   console.log(services);
   const url = {
     grooming: 'service.transaction.grooming',
@@ -11,7 +11,7 @@ export default function index({ auth, services }) {
   }
 
   return (
-    <IndexLayout auth={auth}>
+    <IndexLayout>
       <div className="flex flex-col items-center w-full ">
         <h4 className="text-3xl text-center my-16">Pelayanan Servis Kami</h4>
         <div className="flex gap-20">

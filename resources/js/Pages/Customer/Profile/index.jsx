@@ -62,7 +62,7 @@ export default function index({ auth, user, transactions, flash }) {
   }
 
   return (
-    <IndexLayout auth={auth}>
+    <IndexLayout auth={auth} >
       <Toaster />
       <div className="font-sans">
         <div className="flex flex-col w-full items-center justify-center my-10">

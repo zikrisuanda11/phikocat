@@ -86,10 +86,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
         Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
         Route::get('/cart/status/{id}', [CartController::class, 'status'])->name('cart.status');
-        Route::post('checkout', [TransactionController::class, 'store']);
         Route::put('/increment-cart', [CartController::class, 'increment']);
         Route::put('/decrement-cart', [CartController::class, 'decrement']);
         Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+        
+        Route::post('/checkout', [TransactionController::class, 'store']);
+        Route::post('/checkout/grooming', [TransactionController::class, 'grooming']);
+        Route::get('/checkout/grooming/{id_transaction}', [ServiceController::class, 'groomingStatus'])->name('checkout.grooming.groomingStatus');
 
         Route::get('services/transaction/grooming', [ServiceController::class, 'grooming'])->name('service.transaction.grooming');
         Route::get('services/transaction/pet-hotel', [ServiceController::class, 'petHotel'])->name('service.transaction.pet_hotel');

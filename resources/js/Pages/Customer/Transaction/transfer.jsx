@@ -1,7 +1,7 @@
 import IndexLayout from "@/Layouts/IndexLayout";
 import React, { useEffect } from "react";
 
-export default function process({ snapToken, midtransClientKey, auth }) {
+export default function transfer({ snapToken, midtransClientKey, auth }) {
   // console.log(midtransClientKey);
 
   // useEffect(() => {
@@ -71,7 +71,7 @@ export default function process({ snapToken, midtransClientKey, auth }) {
   
   return (
     <>
-      <IndexLayout auth={auth}>
+      <IndexLayout>
         <div className="mx-10 flex justify-center">
           {/* <button onClick={handleOnClick}>Pay</button> */}
           <div id="snap-container"></div>

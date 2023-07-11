@@ -49,13 +49,14 @@ export default function Cart({ flash, auth, carts, total_price, status }) {
 
   return (
     <>
-      <IndexLayout auth={auth}>
+      <IndexLayout>
         <Toaster />
         <div className="flex flex-col w-full items-center justify-center my-10">
           <h1 className="text-3xl font-serif">Cart</h1>
           <div className="w-full">
-            <div className="flex gap-5 mx-56 justify-center  mt-10">
+            <div className="flex gap-5 mx-56 justify-center  mt-10 ">
               <div className=" border shadow-md w-8/12 rounded-xl h-min-fit">
+              <h1 className="text-xl text-center my-3 font-medium text-gray-500">Keranjang</h1>
                 {/* begin::product */}
                 {carts.length > 0 ?
                   carts.map((cart, index) => {
@@ -98,12 +99,12 @@ export default function Cart({ flash, auth, carts, total_price, status }) {
                             </div>
                           </div>
                         </div>
-                        <Divider />
+                        {/* <Divider /> */}
                       </React.Fragment>
                     )
                   })
                   : (
-                    <div className="text-center mt-16">😞 Keranjang Kosong</div>
+                    <div className="text-center mt-20">😞 Keranjang Kosong</div>
                   )
                 }
 

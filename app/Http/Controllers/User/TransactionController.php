@@ -12,6 +12,7 @@ use App\Models\TypeTransaction;
 use App\Models\DetailTransaction;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ServicePet;
 
 // TODO UBAH $request->user_id jadi auth()->user() nanti
 class TransactionController extends Controller
@@ -40,11 +41,69 @@ class TransactionController extends Controller
 
     }
 
+    public function grooming(Request $request)
+    {
+        // return response()->json($request->all());
+        // dd($request->all());
+        $user = auth()->user();
+        $request->validate([
+            'type_transaction_id' => 'required',
+            'type_payment' => 'required',
+            'date_service' => 'required'
+        ]);
+
+        $typeTransaction = TypeTransaction::where('id', $request->type_transaction_id)->first();
+        if($typeTransaction->type_transaction_name == 'products'){
+            return session()->flash('error', 'Cannot process transaction');
+        }
+
+        if ($request->type_payment == 'transfer') {
+        }
+        if ($request->type_payment == 'cod') {
+            $service = ServicePet::where('type_service', 'grooming')->first();
+            // dd($total);
+            // return response()->json($total);
+
+            try {
+                // dd('initereksekusi');
+                DB::beginTransaction();
+
+                $transaction = Transaction::create([
+                    'user_id' => $user->id,
+                    'date_transaction' => Carbon::now(),
+                    'amount' => $service->price_service,
+                    'type_transaction_id' => $request->type_transaction_id,
+                    'type_payment' => $request->type_payment,
+                    'status_transaction' => 'pending',
+                ]);
+
+                DetailTransaction::create([
+                    'transaction_id' => $transaction->id,
+                    'service_id' => $service->id,
+                    'quantity' => 1,
+                    'date_service' => $request->date_service,
+                    'amount' => $service->price_service,
+                ]);
+
+                DB::commit();
+                return to_route('checkout.grooming.groomingStatus', ['id_transaction' => $transaction->id]);
+
+            } catch (\Exception $e) {
+                return response()->json($e->getMessage());
+                // session()->flash('error', 'Gagal melakukan transaksi');
+            }
+        }
+    }
+
+    public function paymentCash()
+    {
+    }
+
     public function paymentTransfer($snap_token)
     {
         // dd($snap_token);
         $midtransClientKey = config('services.midtrans.client');
-        return inertia('Customer/Transaction/process', [
+        return inertia('Customer/Transaction/transfer', [
             'snapToken' => $snap_token,
             'midtransClientKey' => $midtransClientKey
         ]);
@@ -67,19 +126,19 @@ class TransactionController extends Controller
         $typeTransaction = TypeTransaction::where('id', $request->type_transaction_id)->first();
 
         if ($typeTransaction->type_transaction_name == 'products') {
-            if($request->type_payment == 'transfer'){
+            if ($request->type_payment == 'transfer') {
                 $carts = DB::table('carts')->select('*', DB::raw('product_pets.price_product * quantity as total_price'))
                     ->join('product_pets', 'carts.product_id', '=', 'product_pets.id')
                     ->where('user_id', '=', $user->id)->get();
-    
+
                 if ($carts->count() == 0) {
                     return response()->json([
                         'message' => 'cart empty'
                     ], 422);
                 }
-    
+
                 $total = $carts->sum('total_price');
-    
+
                 try {
                     DB::beginTransaction();
                     $transaction = Transaction::create([
@@ -90,7 +149,7 @@ class TransactionController extends Controller
                         'type_payment' => $request->type_payment,
                         'status_transaction' => 'pending',
                     ]);
-    
+
                     foreach ($carts as $cart) {
                         DetailTransaction::create([
                             'transaction_id' => $transaction->id,
@@ -99,12 +158,12 @@ class TransactionController extends Controller
                             'amount' => $cart->total_price
                         ]);
                     }
-    
+
                     Config::$serverKey = config('services.midtrans.server');
                     Config::$isProduction = false;
                     Config::$isSanitized = true;
                     Config::$is3ds = true;
-    
+
                     $params = array(
                         'transaction_details' => array(
                             'order_id' => $transaction->id,
@@ -116,13 +175,13 @@ class TransactionController extends Controller
                             'phone' => $user->phone,
                         ),
                     );
-    
+
                     $snapToken = \Midtrans\Snap::getSnapToken($params);
-    
+
                     Cart::where('user_id', $user->id)->delete();
-    
+
                     DB::commit();
-    
+
                     // apakah disini berupa redirect saja? 
                     return redirect()->route('transaction.paymentTransfer', ['snap_token' => $snapToken]);
                     // return inertia('Cart/index', [
@@ -130,26 +189,26 @@ class TransactionController extends Controller
                     //     'snapToken' => $snapToken,
                     //     'dataTransaction' => $transaction
                     // ]);
-    
+
                 } catch (\Exception $e) {
                     DB::rollBack();
-    
+
                     return response()->json([
                         'message' => 'transaksi gagal',
                         'error' => $e->getMessage()
                     ], 500);
                 }
-            }else if($request->type_payment == 'cod'){
+            } else if ($request->type_payment == 'cod') {
                 $carts = DB::table('carts')->select('*', DB::raw('product_pets.price_product * quantity as total_price'))
                     ->join('product_pets', 'carts.product_id', '=', 'product_pets.id')
                     ->where('user_id', '=', $user->id)->get();
-    
+
                 if ($carts->count() == 0) {
                     return session()->flash('message', '😞 Keranjang kosong');
                 }
-    
+
                 $total = $carts->sum('total_price');
-    
+
                 try {
                     DB::beginTransaction();
                     $transaction = Transaction::create([
@@ -160,7 +219,7 @@ class TransactionController extends Controller
                         'type_payment' => $request->type_payment,
                         'status_transaction' => 'pending',
                     ]);
-    
+
                     foreach ($carts as $cart) {
                         DetailTransaction::create([
                             'transaction_id' => $transaction->id,
@@ -169,16 +228,15 @@ class TransactionController extends Controller
                             'amount' => $cart->total_price
                         ]);
                     }
-    
+
                     Cart::where('user_id', auth()->user()->id)->delete();
-    
+
                     DB::commit();
-    
+
                     return redirect()->route('transaction.show', ['id' => $transaction->id])->with('message', 'Silahkan lakukan pembayaran dikasir');
-    
                 } catch (\Exception $e) {
                     DB::rollBack();
-    
+
                     return response()->json([
                         'message' => 'transaksi gagal',
                         'error' => $e->getMessage()
@@ -188,22 +246,10 @@ class TransactionController extends Controller
                 // return redirect()->route('cart.show');
             }
         } else if ($typeTransaction->type_transaction_name == 'service') {
+            if ($request->type_payment == 'transfer') {
+            } else if ($request->type_payment == 'cod') {
+            }
         }
-
-        // $data = Transaction::create([
-        //     // date_transaction pake Carbon::now
-        //     'date_transaction' => $request->date_transaction,
-        //     // amount dari total keseluruhan harga
-        //     'amount' => $request->amount,
-        //     // type transaction dari $request
-        //     'type_transaction_id' => $request->type_transaction_id,
-        //     // type payment dari $request
-        //     'type_payment'  => $request->type_payment,
-        //     // status transaction dari proses transaksi
-        //     'status_transaction' => $request->status_transaction,
-        //     // bukti pembayaran jika pembayaran menggunakan transfer
-        //     'evidence_of_transfer' => $request->evidence_of_transfer
-        // ]);
     }
 
     /**

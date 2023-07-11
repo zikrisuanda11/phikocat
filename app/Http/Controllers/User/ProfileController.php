@@ -14,7 +14,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = User::where('id', auth()->user()->id)->first();
-        $transaction = Transaction::where('user_id', auth()->user()->id)->paginate(5);
+        $transaction = Transaction::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(5);
         return inertia('Customer/Profile/index', [
             'user' => $user,
             'transactions' => $transaction
