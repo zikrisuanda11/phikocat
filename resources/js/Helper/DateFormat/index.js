@@ -7,7 +7,8 @@ const DateFormat = (date) => {
   const seconds = String(100 + date.getSeconds()).substring(1);
   const milliseconds = String(1000 + date.getMilliseconds()).substring(1);
 
-  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
+  return `${year}-${month}-${day}`;
+  // return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`;
 }
 
 export default DateFormat;

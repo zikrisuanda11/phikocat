@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import IndexLayout from "@/Layouts/IndexLayout";
 import RadioButton from "@/Components/RadioButton";
 import RupiahFormat from "@/Helper/RupiahFormat";
 import CustomButton from "@/Components/Buttons/CustomButton";
+import DateFormat from "@/Helper/DateFormat";
+import { Inertia } from "@inertiajs/inertia";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
-export default function grooming({ auth, total_price = 12000, count_product }) {
+export default function grooming({ flash, price_service }) {
   const [typePayment, setTypePayment] = React.useState('cod');
+  const [dateCheckin, setDateCheckin] = useState(DateFormat(new Date()));
+  const [dateCheckout, setDateCheckout] = useState(DateFormat(new Date()));
+  const  total_price = flash.data == null ? price_service : flash.data
+  console.log(total_price);
+
+  const handleOnDateChange = () => {
+    Inertia.post('/services/transaction/pet-hotel', {
+      date_checkin: dateCheckin,
+      date_checkout: dateCheckout
+    })
+  }
+  useEffect(() => {
+    handleOnDateChange();
+  }, [dateCheckin, dateCheckout])
+  
   const handleCheckout = () => {
-    // Inertia.post('/checkout', {
-    //   type_transaction_id: 1,
-    //   type_payment: typePayment
-    // });
+    Inertia.post('/checkout/pet-hotel', {
+      type_transaction_id: 2,
+      type_payment: typePayment,
+      date_checkin: dateCheckin,
+      date_checkout: dateCheckout
+    });
   }
 
   return (
@@ -27,7 +46,12 @@ export default function grooming({ auth, total_price = 12000, count_product }) {
                 <h3 className="text-gray-500">Check-IN</h3>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar />
+                    <DateCalendar 
+                      onChange={(newValue) => {
+                        const formattedDate = DateFormat(newValue.$d);
+                        setDateCheckin(formattedDate);
+                      }}
+                    />
                   </LocalizationProvider>
                 </div>
               </div>
@@ -35,7 +59,12 @@ export default function grooming({ auth, total_price = 12000, count_product }) {
                 <h3 className="text-gray-500">Check-OUT</h3>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar />
+                    <DateCalendar 
+                      onChange={(newValue) => {
+                        const formattedDate = DateFormat(newValue.$d);
+                        setDateCheckout(formattedDate);
+                      }}
+                    />
                   </LocalizationProvider>
                 </div>
               </div>
@@ -55,7 +84,6 @@ export default function grooming({ auth, total_price = 12000, count_product }) {
                 </div>
                 <div>
                   <CustomButton
-                    // title={'Checkout (' + carts.length + ')'}
                     title={'Checkout'}
                     onClick={() => { handleCheckout() }}
                     variant={"contained"}

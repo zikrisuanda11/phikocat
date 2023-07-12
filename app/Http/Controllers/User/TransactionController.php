@@ -41,6 +41,61 @@ class TransactionController extends Controller
 
     }
 
+    public function petHotel(Request $request)
+    {
+        // checkout dikurangin checkin untuk mendapatkan brp hari dia nginap
+        // dd($request->all());
+        $user = auth()->user();
+        $request->validate([
+            'type_transaction_id' => 'required',
+            'type_payment' => 'required',
+            'date_checkin' => 'required',
+            'date_checkout' => 'required',
+        ]);
+
+        $typeTransaction = TypeTransaction::where('id', $request->type_transaction_id)->first();
+        if ($typeTransaction->type_transaction_name == 'products') {
+            return session()->flash('error', 'Cannot process transaction');
+        }
+
+        $dateCheckin = Carbon::parse($request->date_checkin);
+        $dateCheckout = Carbon::parse($request->date_checkout);
+        $quantity = $dateCheckout->diffInDays($dateCheckin);
+
+        $service = ServicePet::where('type_service', 'pet_hotel')->first();
+
+        $total = $quantity > 0 ? $quantity * $service->price_service += $service->price_service : $service->price_service;
+
+        if ($request->type_payment == 'cod') {
+            try {
+                DB::beginTransaction();
+                $transaction = Transaction::create([
+                    'user_id' => $user->id,
+                    'date_transaction' => Carbon::now(),
+                    'amount' => $total,
+                    'type_transaction_id' => $request->type_transaction_id,
+                    'type_payment' => $request->type_payment,
+                    'status_transaction' => 'pending',
+                ]);
+
+                DetailTransaction::create([
+                    'transaction_id' => $transaction->id,
+                    'service_id' => $service->id,
+                    'quantity' => $quantity,
+                    'date_checkin' => $request->date_checkin,
+                    'date_checkou' => $request->date_checkou,
+                    'amount' => $total,
+                ]);
+
+                DB::commit();
+                return to_route('checkout.grooming.groomingStatus', ['id_transaction' => $transaction->id]);
+            } catch (\Exception $e) {
+                // TODO ubah jadi flash error
+                return response()->json($e->getMessage());
+            }
+        }
+    }
+
     public function grooming(Request $request)
     {
         // return response()->json($request->all());
@@ -53,7 +108,7 @@ class TransactionController extends Controller
         ]);
 
         $typeTransaction = TypeTransaction::where('id', $request->type_transaction_id)->first();
-        if($typeTransaction->type_transaction_name == 'products'){
+        if ($typeTransaction->type_transaction_name == 'products') {
             return session()->flash('error', 'Cannot process transaction');
         }
 
@@ -87,9 +142,9 @@ class TransactionController extends Controller
 
                 DB::commit();
                 return to_route('checkout.grooming.groomingStatus', ['id_transaction' => $transaction->id]);
-
             } catch (\Exception $e) {
                 return response()->json($e->getMessage());
+                // TODO ubah jadi flash error
                 // session()->flash('error', 'Gagal melakukan transaksi');
             }
         }

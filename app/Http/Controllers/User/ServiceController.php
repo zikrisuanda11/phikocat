@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-use App\Models\DetailTransaction;
+use Carbon\Carbon;
 use App\Models\ServicePet;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\DetailTransaction;
+use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
 {
@@ -38,7 +39,34 @@ class ServiceController extends Controller
 
     public function petHotel()
     {
-        return inertia('Customer/Service/PetHotel/petHotel');
+        $price_service = ServicePet::where('type_service', 'pet_hotel')->first();
+        return inertia('Customer/Service/PetHotel/petHotel', [
+            'price_service' => $price_service->price_service
+        ]);
+    }
+
+    public function petHoteUpdate(Request $request)
+    {
+        // dd($request->all());
+        $dateCheckin = Carbon::parse($request->date_checkin);
+        $dateCheckout = Carbon::parse($request->date_checkout);
+        $quantity = $dateCheckout->diffInDays($dateCheckin);
+
+        $service = ServicePet::where('type_service', 'pet_hotel')->first();
+
+        $total = $quantity > 0 ? $quantity * $service->price_service += $service->price_service : $service->price_service;
+
+        session()->flash('data', $total);
+    }
+
+    public function petHotelStatus($id_transaction)
+    {
+        $transaction = Transaction::where('id', $id_transaction)->first();
+        $detailTransaction = DetailTransaction::where('transaction_id', $transaction->id);
+        return inertia('Customer/Service/PetHotel/status', [
+            'transaction' => $transaction,
+            'detailTransaction' => $detailTransaction
+        ]);
     }
 }
 

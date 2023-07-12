@@ -93,9 +93,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/checkout', [TransactionController::class, 'store']);
         Route::post('/checkout/grooming', [TransactionController::class, 'grooming']);
         Route::get('/checkout/grooming/{id_transaction}', [ServiceController::class, 'groomingStatus'])->name('checkout.grooming.groomingStatus');
+        Route::post('/checkout/pet-hotel', [TransactionController::class, 'petHotel']);
+        Route::get('/checkout/pet-hotel/{id_transaction}', [ServiceController::class, 'petHotelStatus'])->name('checkout.petHotel.petHotelStatus');
+
 
         Route::get('services/transaction/grooming', [ServiceController::class, 'grooming'])->name('service.transaction.grooming');
         Route::get('services/transaction/pet-hotel', [ServiceController::class, 'petHotel'])->name('service.transaction.pet_hotel');
+        Route::post('services/transaction/pet-hotel', [ServiceController::class, 'petHoteUpdate']);
 
         Route::get('transaction/{id}', [TransactionController::class, 'show'])->name('transaction.show');
         Route::get('transaction/payment/transfer/{snap_token}', [TransactionController::class, 'paymentTransfer'])->name('transaction.paymentTransfer');
