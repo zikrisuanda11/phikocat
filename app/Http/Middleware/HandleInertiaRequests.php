@@ -8,6 +8,7 @@ use Inertia\Middleware;
 use App\Models\ProductPet;
 use Tightenco\Ziggy\Ziggy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class HandleInertiaRequests extends Middleware
@@ -35,9 +36,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         if (auth()->user()) {
-            $adminRole = Role::where('name', 'admin')->first();
-            $adminUsers = $adminRole->users()->get();
-            $product = ProductPet::all();
+            // $product = ProductPet::all();
             return array_merge(parent::share($request), [
                 'flash' => [
                     'message' => $request->session()->get('message'),
@@ -46,9 +45,9 @@ class HandleInertiaRequests extends Middleware
                 ],
                 'auth' => [
                     'user' => $request->user(),
-                    'product' => $product
+                    'roles' => Auth::user()->hasRole('admin'),
+                    // 'product' => $product
                 ],
-                'admin' => $adminUsers,
                 'ziggy' => function () use ($request) {
                     return array_merge((new Ziggy)->toArray(), [
                         'location' => $request->url(),

@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import DateFormat from '@/Helper/DateFormat'
 
 export default function grooming({ total_price }) {
-  const [dateService, setDateService] = useState(DateFormat(new Date()));
+  const [dateService, setDateService] = useState(new Date());
   console.log(dateService);
   const [typePayment, setTypePayment] = React.useState('cod');
   const handleCheckout = () => {

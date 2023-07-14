@@ -99,7 +99,7 @@ class TransactionController extends Controller
     public function grooming(Request $request)
     {
         // return response()->json($request->all());
-        // dd($request->all());
+        dd($request->all());
         $user = auth()->user();
         $request->validate([
             'type_transaction_id' => 'required',

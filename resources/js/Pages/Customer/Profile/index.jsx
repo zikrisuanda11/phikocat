@@ -131,16 +131,8 @@ export default function index({ auth, user, transactions, flash }) {
                           })}
                         </table>
                         <div className="gap-2 flex justify-end items-center mt-5">
+                          <div>{transactions.from}-{transactions.to} of {transactions.total}</div>
                           <a href={transactions.prev_page_url} className={`${transactions.prev_page_url ? '' : 'bg-gray-400'}bg-gray-200 p-2 rounded-md`}>{<GrFormPrevious />}</a>
-                          {transactions.links.map((link) => {
-                            if (link.label != "&laquo; Previous" && link.label != "Next &raquo;") {
-                              return (
-                                <a href={link.url} className={`${link.active ? 'bg-primary text-white' : 'bg-gray-200'} h-8 w-8 rounded-md flex items-center justify-center`}>
-                                  {link.label}
-                                </a>
-                              )
-                            }
-                          })}
                           <a href={transactions.next_page_url} className={`${transactions.next_page_url ? '' : 'bg-gray-400'}bg-gray-200 p-2 rounded-md`}>{<GrFormNext/>}</a>
                         </div>
                       </div>

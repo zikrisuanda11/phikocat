@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ProductPetController;
 use App\Http\Controllers\Admin\ServicePetController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\TypeProductController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\User\ProfileController;
 
 /*
@@ -56,7 +57,7 @@ Route::get('/', function () {
     return Inertia::render('Landing/index');
 })->name('landing');
 
-Route::get('tes', function(){
+Route::get('tes', function () {
     return view('tes');
 });
 
@@ -67,11 +68,16 @@ Route::post('/clear-flash', function (Request $request) {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::middleware(['role:manager|admin'])->group(function(){
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::put('/dashboard', [DashboardController::class, 'update'])->name('dashboard.update');
+        Route::get('/histories', [HistoryController::class, 'index']);
+        Route::get('/histories/{id}/detail', [HistoryController::class, 'detail']);
+    });
+
     Route::middleware('role:admin')->prefix('admin')->group(function () {
         Route::resource('/products', ProductPetController::class)->except('update');
         Route::post('/products/{id}', [ProductPetController::class, 'update']);
-        Route::get('/histories', [HistoryController::class, 'index']);
-        Route::get('/histories/{id}/detail', [HistoryController::class, 'detail']);
         Route::get('/confirm', [ConfirmController::class, 'index']);
         Route::put('/confirm', [ConfirmController::class, 'update']);
         Route::resource('/services', ServicePetController::class);
@@ -89,7 +95,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/increment-cart', [CartController::class, 'increment']);
         Route::put('/decrement-cart', [CartController::class, 'decrement']);
         Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-        
+
         Route::post('/checkout', [TransactionController::class, 'store']);
         Route::post('/checkout/grooming', [TransactionController::class, 'grooming']);
         Route::get('/checkout/grooming/{id_transaction}', [ServiceController::class, 'groomingStatus'])->name('checkout.grooming.groomingStatus');
@@ -107,7 +113,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('profile', [ProfileController::class, 'index']);
         Route::post('profile/{id}', [ProfileController::class, 'update']);
-        
     });
 });
 

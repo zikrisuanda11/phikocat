@@ -1,14 +1,10 @@
 import React from "react";
-import { usePage } from "@inertiajs/inertia-react"
-import { InertiaLink } from '@inertiajs/inertia-react'
+import { BsGear } from 'react-icons/bs';
+import { Inertia } from "@inertiajs/inertia";
 import { MdOutlineSpaceDashboard } from 'react-icons/md';
 import { BsBoxSeam, BsClockHistory } from 'react-icons/bs';
+import { InertiaLink, Link, usePage } from '@inertiajs/inertia-react'
 import { BiCategoryAlt, BiUser, BiLogOut, BiMoney } from 'react-icons/bi';
-import { BsGear } from 'react-icons/bs';
-import { Inertia } from "@inertiajs/inertia"
-import { Link } from "@inertiajs/react"
-import Buttons from "@/Components/Buttons/Index";
-import CustomButton from "@/Components/Buttons/CustomButton";
 
 
 function classNames(...classes) {
@@ -16,6 +12,8 @@ function classNames(...classes) {
 }
 
 export default function Layout({ children }) {
+  const props = usePage().props
+
   const { url } = usePage();
 
   const id = url.split('/').slice(1);
@@ -35,13 +33,7 @@ export default function Layout({ children }) {
         url === '/admin/type-products/create' ||
         url === `/admin/type-products/${parseInt(id[1])}/edit`
     },
-    {
-      name: 'History Transactions', href: '/admin/histories', icon: BsClockHistory,
-      isActive:
-        url === '/admin/histories' ||
-        url === '/admin/histories/create' ||
-        url === `/admin/histories/${parseInt(id[1])}/edit`
-    },
+    { name: 'History Transactions', href: '/histories', icon: BsClockHistory, isActive: url === '/histories' },
     {
       name: 'Confirm Payment', href: '/admin/confirm', icon: BiMoney,
       isActive:
@@ -65,7 +57,13 @@ export default function Layout({ children }) {
     },
   ]
 
-  const navigation = navigationAdmin
+  const navigationManager = [
+    { name: 'Dashboard', href: '/dashboard', icon: MdOutlineSpaceDashboard, isActive: url === '/dashboard' },
+    { name: 'History', href: '/histories', icon: BsBoxSeam, isActive: url === '/histories' },
+  ]
+
+  const isAdmin = props.auth.roles;
+  const navigation = isAdmin ? navigationAdmin : navigationManager
 
   const handleLogout = () => {
     Inertia.post('/logout')
