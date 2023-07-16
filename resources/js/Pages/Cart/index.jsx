@@ -9,12 +9,9 @@ import { Inertia } from "@inertiajs/inertia";
 import RadioButton from "@/Components/RadioButton";
 import toast, { Toaster } from 'react-hot-toast';
 
-// const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
 export default function Cart({ flash, auth, carts, total_price, status }) {
   const label = { inputProps: carts.id }
 
-  console.log(status);
   const [typePayment, setTypePayment] = React.useState('cod');
 
   const handleDeleteCart = (id) => {
@@ -95,6 +92,7 @@ export default function Cart({ flash, auth, carts, total_price, status }) {
                                   onClick={() => { handleIncrementCart(cart.product_id) }}
                                   customClass={"w-8 h-8"}
                                 />
+                              <div className="text-xs text-gray-500">Tersisa {cart.product_pet.stock_product} buah</div>
                               </div>
                             </div>
                           </div>

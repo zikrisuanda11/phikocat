@@ -158,7 +158,7 @@ export default function User({ users, flash }) {
           <div className="flex-col mr-8">
             <div className="flex justify-between">
               <div className="flex-col">
-                <h1 className="text-lg font-semibold text-gray-900">Produk</h1>
+                <h1 className="text-lg font-semibold text-gray-900">User</h1>
                 <Breadcrumb
                   breadcrumbs={[
                     { name: 'Users', href: '/admin/users', color: 'inherit', key: '1' },

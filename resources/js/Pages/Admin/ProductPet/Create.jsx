@@ -18,7 +18,6 @@ export default function Create({ typeProductPets, errors }) {
   const [selected, setSelected] = useState(typeProductPets[0]);
   const [query, setQuery] = useState('');
   const [file, setFile] = useState(null);
-  console.log(errors);
 
   useEffect(() => {
     setTypeProductId(selected.id)

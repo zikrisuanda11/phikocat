@@ -17,6 +17,7 @@ class DashboardController extends Controller
         $year = $dateTotal->format('Y');
         $transaction = Transaction::whereMonth('date_transaction', $month)
             ->whereYear('date_transaction', $year)
+            ->where('status_transaction', 'success')
             ->get();
         $product = ProductPet::all()->count();
 
@@ -27,6 +28,7 @@ class DashboardController extends Controller
         // Begin::laporan penjualan
         $transactions = Transaction::whereMonth('date_transaction', $month)
             ->whereYear('date_transaction', $year)
+            ->orderBy('id', 'desc')
             ->paginate(10);
         // End::laporan penjualan
 
@@ -42,12 +44,14 @@ class DashboardController extends Controller
 
     public function update(Request $request)
     {
+        // dd($request->status_transaction);
         // Begin::data total perbulan
         $dateTotal = Carbon::parse($request->date_total)->firstOfMonth();
         $month = $dateTotal->format('m');
         $year = $dateTotal->format('Y');
         $transaction = Transaction::whereMonth('date_transaction', $month)
             ->whereYear('date_transaction', $year)
+            ->where('status_transaction', 'success')
             ->get();
         $product = ProductPet::all()->count();
 
@@ -56,16 +60,16 @@ class DashboardController extends Controller
         // End::data total perbulan
 
         // Begin::laporan penjualan
-        // ganti bulannya berdasarkan select laporan penjualan
         $dateReport = Carbon::parse($request->date_report)->firstOfMonth();
         $month = $dateReport->format('m');
         $year = $dateReport->format('Y');
         $transactions = Transaction::whereMonth('date_transaction', $month)
             ->whereYear('date_transaction', $year)
+            ->where('status_transaction', $request->status_transaction == 'all' ? '!=' : $request->status_transaction, 'all')
+            ->orderBy('id', 'desc')
             ->paginate(10);
         // End::laporan penjualan
 
-        session()->flash('message', 'Tanggal telah diubah');
         return inertia('Dashboard', [
             'data' => [
                 'total_pendapatan' => $total_pendapatan,

@@ -7,8 +7,7 @@ import { useEffect } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { Inertia } from "@inertiajs/inertia";
 
-export default function status({ flash,  transaction, transactionDetail, admin }) {
-  console.log(flash);
+export default function status({ flash,  transaction, detailTransaction, admin }) {
 
   useEffect(() => {
     transaction
@@ -48,8 +47,12 @@ export default function status({ flash,  transaction, transactionDetail, admin }
                     <p className="font-bold">#{transaction.id}</p>
                   </div>
                   <div className="my-3">
-                    <div className="text-xs text-slate-500">Date Transaction</div>
-                    <p className="font-bold">{transaction.date_transaction}</p>
+                    <div className="text-xs text-slate-500">Date Check-IN</div>
+                    <p className="font-bold">{detailTransaction.date_checkin}</p>
+                  </div>
+                  <div className="my-3">
+                    <div className="text-xs text-slate-500">Date Check-OUT</div>
+                    <p className="font-bold">{detailTransaction.date_out}</p>
                   </div>
                   <div className="my-3">
                     <div className="text-xs text-slate-500">Tipe Pembayaran</div>
@@ -73,13 +76,13 @@ export default function status({ flash,  transaction, transactionDetail, admin }
                   <div>
                     <h3 className="font-bold">Email</h3>
                     <p className="text-primary">
-                      {admin[0].email}
+                      {admin.email}
                     </p>
                   </div>
                   <div>
                     <h3 className="font-bold">Whatsapp</h3>
                     <p className="text-primary">
-                      {admin[0].phone}
+                      {admin.phone}
                     </p>
                   </div>
                 </div>

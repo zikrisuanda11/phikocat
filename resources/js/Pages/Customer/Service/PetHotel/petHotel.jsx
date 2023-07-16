@@ -8,13 +8,26 @@ import { Inertia } from "@inertiajs/inertia";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import toast, { Toaster } from 'react-hot-toast';
 
-export default function grooming({ flash, price_service }) {
+export default function grooming({ flash }) {
   const [typePayment, setTypePayment] = React.useState('cod');
-  const [dateCheckin, setDateCheckin] = useState(DateFormat(new Date()));
-  const [dateCheckout, setDateCheckout] = useState(DateFormat(new Date()));
-  const  total_price = flash.data == null ? price_service : flash.data
-  console.log(total_price);
+  const [dateCheckin, setDateCheckin] = useState(new Date().toISOString().split('T')[0]);
+  const [dateCheckout, setDateCheckout] = useState(new Date().toISOString().split('T')[0]);
+  const total_price = flash.data == null ? 0 : flash.data
+  console.log(flash);
+
+  useEffect(() => {
+    if (flash.message) {
+      toast(flash.message, {
+        icon: '✅'
+      })
+    }
+    if (flash.error) {
+      toast.error(flash.error)
+    }
+    Inertia.post('/clear-flash')
+  }, [flash.message, flash.error])
 
   const handleOnDateChange = () => {
     Inertia.post('/services/transaction/pet-hotel', {
@@ -25,7 +38,7 @@ export default function grooming({ flash, price_service }) {
   useEffect(() => {
     handleOnDateChange();
   }, [dateCheckin, dateCheckout])
-  
+
   const handleCheckout = () => {
     Inertia.post('/checkout/pet-hotel', {
       type_transaction_id: 2,
@@ -38,6 +51,7 @@ export default function grooming({ flash, price_service }) {
   return (
     <IndexLayout>
       <div>
+        <Toaster position="center-bottom"/>
         <div className="flex flex-col w-full items-center justify-center my-10">
           <h1 className="text-3xl font-serif">Pet Hotel</h1>
           <div className="w-full">
@@ -46,7 +60,7 @@ export default function grooming({ flash, price_service }) {
                 <h3 className="text-gray-500">Check-IN</h3>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar 
+                    <DateCalendar
                       onChange={(newValue) => {
                         const formattedDate = DateFormat(newValue.$d);
                         setDateCheckin(formattedDate);
@@ -59,7 +73,7 @@ export default function grooming({ flash, price_service }) {
                 <h3 className="text-gray-500">Check-OUT</h3>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateCalendar 
+                    <DateCalendar
                       onChange={(newValue) => {
                         const formattedDate = DateFormat(newValue.$d);
                         setDateCheckout(formattedDate);

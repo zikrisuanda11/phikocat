@@ -4,7 +4,6 @@ import { InertiaLink } from "@inertiajs/inertia-react";
 import { Button } from "@mui/material";
 
 export default function index({ auth, services, count_product }) {
-  console.log(services);
   const url = {
     grooming: 'service.transaction.grooming',
     pet_hotel: 'service.transaction.pet_hotel'
@@ -16,7 +15,6 @@ export default function index({ auth, services, count_product }) {
         <h4 className="text-3xl text-center my-16">Pelayanan Servis Kami</h4>
         <div className="flex gap-20">
           {services.map((service, index) => {
-            // console.log(service);
             return (
               <div className="flex  gap-20" key={index}>
                 <div className="w-[20rem] h-auto hover:shadow-lg p-6 rounded-lg text-black bg-white flex flex-col gap-5 justify-between">

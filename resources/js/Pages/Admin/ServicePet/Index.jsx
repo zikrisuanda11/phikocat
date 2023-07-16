@@ -145,7 +145,7 @@ export default function ServicePet({ servicePets, flash }) {
           <div className="flex-col mr-8">
             <div className="flex justify-between">
               <div className="flex-col">
-                <h1 className="text-lg font-semibold text-gray-900">Produk</h1>
+                <h1 className="text-lg font-semibold text-gray-900">Service Pets</h1>
                 <Breadcrumb
                   breadcrumbs={[
                     { name: 'Service Pet', href: '/admin/services', color: 'inherit', key: '1' },

@@ -13,6 +13,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import dayjs from 'dayjs';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import { Link } from '@inertiajs/inertia-react';
+import Success from '@/Components/Badges/Success';
+import Pending from '@/Components/Badges/Pending';
+import Failed from '@/Components/Badges/Failed';
 
 export default function Dashboard({ auth, flash, data }) {
   const [selected, setSelected] = useState('all')
@@ -20,14 +23,17 @@ export default function Dashboard({ auth, flash, data }) {
   const [dateReport, setDateReport] = useState();
   const [formattedDate, setFormattedDate] = useState(dayjs().format('MMM YYYY'));
 
-  console.log(data.transactions.next_page_url);
+  const handleDetailTransaction = (id) => {
+    Inertia.get(`/detail-transaction/${id}`)
+  }
 
   useEffect(() => {
     Inertia.put('/dashboard', {
       date_total: dateTotal,
-      date_report: dateReport
+      date_report: dateReport,
+      status_transaction: selected
     })
-  }, [dateTotal, dateReport])
+  }, [dateTotal, dateReport, selected])
 
   return (
     <Layout auth={auth}>
@@ -75,15 +81,14 @@ export default function Dashboard({ auth, flash, data }) {
         <div className='p-5 flex flex-col text-gray-600 border shadow-md rounded-md mt-5'>
           <div className='flex w-full justify-between'>
             <div className='font-bold w-6/12 text-xl'>Laporan penjualan</div>
-            <div className='font-bold w-6/12 ml-5'>Filter informasi</div>
           </div>
           <div className='flex gap-5 mt-5'>
-            <div className='flex flex-col w-6/12'>
+            {/* <div className='flex flex-col w-6/12'>
               <label htmlFor="invoice_number" className='font-bold'>Search invoice number</label>
               <input type="text" id='invoice_number' className='border-slate-300 mt-2 rounded-md focus:border-primary focus:ring-primary' placeholder='Input invoice number' />
-            </div>
+            </div> */}
             <div className='flex flex-col w-6/12'>
-              <label htmlFor="" className='font-bold'>Month</label>
+              <label htmlFor="" className='font-bold'>Bulan</label>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <DatePicker
@@ -126,9 +131,9 @@ export default function Dashboard({ auth, flash, data }) {
                     </RadioGroup.Option>
                   </div>
                   <div>
-                    <RadioGroup.Option value="process">
+                    <RadioGroup.Option value="pending">
                       {({ checked }) => (
-                        <span className={`${checked ? 'bg-secondary border-primary' : ''} hover:cursor-pointer px-4 py-2 border-2 rounded-md `}>Process</span>
+                        <span className={`${checked ? 'bg-secondary border-primary' : ''} hover:cursor-pointer px-4 py-2 border-2 rounded-md `}>Pending</span>
                       )}
                     </RadioGroup.Option>
                   </div>
@@ -154,16 +159,23 @@ export default function Dashboard({ auth, flash, data }) {
                   <th className="py-3">Tanggal Transaksi</th>
                 </tr>
               </thead>
-              {console.log(data.transactions)}
               {data.transactions.data.map((item) => {
                 return (
                   <tbody className="divide-y divide-gray-100 text-left" key={item.id}>
-                    <tr>
+                    <tr className="hover:cursor-pointer hover:bg-gray-100" onClick={() => { handleDetailTransaction(item.id) }}>
                       <td className="py-3">#{item.id}</td>
-                      <td className="py-3">{item.status_transaction}</td>
+                      <td className="py-3">
+                        {item.status_transaction === 'success' ? (
+                          <Success message={'success'} />
+                        ) : item.status_transaction === 'pending' ? (
+                          <Pending message={'pending'} />
+                        ) : item.status_transaction === 'failed' ? (
+                          <Failed message={'failed'}/>
+                        ) : null}
+                      </td>
                       <td className="py-3">{RupiahFormat(item.amount)}</td>
                       <td className="py-3">{item.type_payment}</td>
-                      <td className="py-3">{dayjs(item.date_transaction).format('DD-MM-YYYY')}</td>
+                      <td className="py-3">{item.date_transaction}</td>
                     </tr>
                   </tbody>
                 )

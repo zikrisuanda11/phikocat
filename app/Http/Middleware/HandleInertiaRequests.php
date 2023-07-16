@@ -48,6 +48,9 @@ class HandleInertiaRequests extends Middleware
                     'roles' => Auth::user()->hasRole('admin'),
                     // 'product' => $product
                 ],
+                'admin' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'admin');
+                    })->first(),
                 'ziggy' => function () use ($request) {
                     return array_merge((new Ziggy)->toArray(), [
                         'location' => $request->url(),

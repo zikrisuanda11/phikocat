@@ -1,32 +1,11 @@
 import IndexLayout from "@/Layouts/IndexLayout";
 import React, { useEffect } from "react";
 
-export default function transfer({ snapToken, midtransClientKey, auth }) {
-  // console.log(midtransClientKey);
-
-  // useEffect(() => {
-  //   const snapSrcUrl = 'https://app.sandbox.midtrans.com/snap/snap.js';
-  //   const myMidtransClientKey = `${midtransClientKey}`
-
-  //   const script = document.createElement('script');
-  //   script.src = snapSrcUrl;
-  //   script.setAttribute('data-client-key', myMidtransClientKey);
-
-  //   document.body.appendChild(script);
-  //   // console.log(script);
-  //   {window.snap.pay({ snapToken })}
-  //   return () => {
-  //     // {window.snap.embed({ snapToken }, {
-  //     //   embedId: 'snap-container'
-  //     // })}
-  //     document.body.removeChild(script);
-  //   }
-  // }, []);
-
+export default function transfer({ transaction, midtransClientKey }) {
   useEffect(() => {
     const loadSnapScript = () => {
       const snapScript = document.createElement('script');
-      snapScript.src = 'https://app.stg.midtrans.com/snap/snap.js';
+      snapScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
       snapScript.setAttribute('data-client-key', midtransClientKey);
       snapScript.async = true;
   
@@ -36,7 +15,6 @@ export default function transfer({ snapToken, midtransClientKey, auth }) {
       });
   
       document.head.appendChild(snapScript);
-      console.log(promise);
       return promise;
     };
   
@@ -46,7 +24,8 @@ export default function transfer({ snapToken, midtransClientKey, auth }) {
         return;
       }
   
-      window.snap.embed({ snapToken }, {
+      // window.snap.pay({ snapToken })
+      window.snap.embed(transaction.token, {
         embedId: 'snap-container',
 
       });
@@ -54,7 +33,6 @@ export default function transfer({ snapToken, midtransClientKey, auth }) {
   
     loadSnapScript()
       .then(() => {
-        console.log('snap.js loaded');
         handleSnapEmbed();
       })
       .catch((error) => {
@@ -67,28 +45,14 @@ export default function transfer({ snapToken, midtransClientKey, auth }) {
         document.head.removeChild(snapScript);
       }
     };
-  }, [midtransClientKey, snapToken]);
+  }, [midtransClientKey]);
   
   return (
     <>
       <IndexLayout>
-        <div className="mx-10 flex justify-center">
-          {/* <button onClick={handleOnClick}>Pay</button> */}
-          <div id="snap-container"></div>
+        <div className="mx-10 flex justify-center mt-10">
+          <div id="snap-container" className="h-full border-2 border-white shadow-lg"></div>
         </div>
-        {/* {snapToken &&
-          <>
-            <div className="mx-10 flex justify-center">
-              <div id="snap-container"></div>
-            </div>
-            {console.log(window.snap)}
-            {window.snap.pay({ snapToken })}
-          </>
-        } */}
-        {/* <div id="snap-container"></div>
-        {window.snap.embed({snapToken}, {
-          embedId: 'snap-container'
-        })} */}
       </IndexLayout>
     </>
   )

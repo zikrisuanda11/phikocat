@@ -8,9 +8,11 @@ import Buttons from "@/Components/Buttons/Index";
 import { Inertia } from "@inertiajs/inertia";
 import toast, { Toaster } from 'react-hot-toast';
 import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
+import Success from '@/Components/Badges/Success';
+import Pending from '@/Components/Badges/Pending';
+import Failed from '@/Components/Badges/Failed';
 
 export default function index({ auth, user, transactions, flash }) {
-  console.log(transactions);
   const [tabs, setTabs] = useState('histories')
   const [preview, setPreview] = useState(null)
   const [values, setValues] = useState({
@@ -48,6 +50,10 @@ export default function index({ auth, user, transactions, flash }) {
     Inertia.post('/clear-flash')
   }, [flash.message])
 
+  const handleDetailTransaction = (id) => {
+    Inertia.get(`/detail-transaction/${id}`)
+  }
+
   const handleOnSubmit = (e) => {
     e.preventDefault()
     Inertia.post(`/profile/${user.id}`, values)
@@ -68,7 +74,7 @@ export default function index({ auth, user, transactions, flash }) {
         <div className="flex flex-col w-full items-center justify-center my-10">
           <div className="w-full">
             <div className="flex gap-20 mx-32 justify-center  mt-10">
-              <div className="border shadow-md p-5 rounded-xl w-3/12 h-fit">
+              <div className="border shadow-md p-5 rounded-xl w-3/12 flex flex-col justify-center ">
                 <div className="flex flex-col items-center justify-center">
                   <div className="w-36 h-auto">
                     <img src={user.photo_profile} alt="Photo Profile" className="rounded-full border-4 shadow-md border-white " />
@@ -113,17 +119,27 @@ export default function index({ auth, user, transactions, flash }) {
                               <th className="py-3">Status Transaksi</th>
                               <th className="py-3">Total</th>
                               <th className="py-3">Type Pembayaran</th>
+                              <th className="py-3">Type Transaksi</th>
                               <th className="py-3">Tanggal Transaksi</th>
                             </tr>
                           </thead>
                           {transactions.data.map((transaction) => {
                             return (
                               <tbody className="divide-y divide-gray-100 text-left" key={transaction.id}>
-                                <tr>
+                                <tr className="hover:cursor-pointer hover:bg-gray-100" onClick={() => { handleDetailTransaction(transaction.id) }}>
                                   <td className="py-3">#{transaction.id}</td>
-                                  <td className="py-3">{transaction.status_transaction}</td>
+                                  <td className="py-3">
+                                    {transaction.status_transaction === 'success' ? (
+                                      <Success message={'success'} />
+                                    ) : transaction.status_transaction === 'pending' ? (
+                                      <Pending message={'pending'} />
+                                    ) : transaction.status_transaction === 'failed' ? (
+                                      <Failed message={'failed'} />
+                                    ) : null}
+                                  </td>
                                   <td className="py-3">{RupiahFormat(transaction.amount)}</td>
                                   <td className="py-3">{transaction.type_payment}</td>
+                                  <td className="py-3">{transaction.type_transaction.type_transaction_name}</td>
                                   <td className="py-3">{transaction.date_transaction}</td>
                                 </tr>
                               </tbody>
@@ -133,7 +149,7 @@ export default function index({ auth, user, transactions, flash }) {
                         <div className="gap-2 flex justify-end items-center mt-5">
                           <div>{transactions.from}-{transactions.to} of {transactions.total}</div>
                           <a href={transactions.prev_page_url} className={`${transactions.prev_page_url ? '' : 'bg-gray-400'}bg-gray-200 p-2 rounded-md`}>{<GrFormPrevious />}</a>
-                          <a href={transactions.next_page_url} className={`${transactions.next_page_url ? '' : 'bg-gray-400'}bg-gray-200 p-2 rounded-md`}>{<GrFormNext/>}</a>
+                          <a href={transactions.next_page_url} className={`${transactions.next_page_url ? '' : 'bg-gray-400'}bg-gray-200 p-2 rounded-md`}>{<GrFormNext />}</a>
                         </div>
                       </div>
                     </div>

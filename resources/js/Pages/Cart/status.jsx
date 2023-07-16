@@ -6,20 +6,19 @@ import RupiahFormat from "@/Helper/RupiahFormat";
 import { useEffect } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { Inertia } from "@inertiajs/inertia";
-import { duration } from "@mui/material";
 
-export default function status({ flash, auth, transaction, transactionDetail, admin, count_product }) {
-  console.log(flash);
+export default function status({ flash, transaction, admin }) {
 
+  console.log(transaction);
   useEffect(() => {
-    transaction
-  }, [transaction])
+    if (transaction.status_transaction === 'success') {
+      toast.success('Berhasil melakukan pembayaran')
+    }
+  }, [transaction.status_transaction, transaction.id]);
 
   useEffect(() => {
     if (flash.message) {
-      toast(flash.message, {
-        icon: '✅'
-      })
+      toast.success(flash.message)
     }
     Inertia.post('/clear-flash')
   }, [flash.message])
@@ -27,9 +26,9 @@ export default function status({ flash, auth, transaction, transactionDetail, ad
   return (
     <>
       <IndexLayout>
-        <Toaster 
+        <Toaster
           toastOptions={{
-            duration: 5000
+            duration: 2000
           }}
           position="bottom-center"
         />
@@ -62,6 +61,13 @@ export default function status({ flash, auth, transaction, transactionDetail, ad
                     <div className="text-xs text-slate-500">Status Pembayaran</div>
                     <p className="font-bold">{transaction.status_transaction}</p>
                   </div>
+                  {transaction.status_transaction == 'success' &&
+                    <div className="my-3">
+                      <div className="text-xs text-slate-500">Detail Transaksi</div>
+                      <p className="font-bold"><a className="hover:text-primary" href={`/detail-transaction/${transaction.id}`}>klik disini</a></p>
+                    </div>
+
+                  }
 
                 </div>
               </div>
@@ -74,13 +80,13 @@ export default function status({ flash, auth, transaction, transactionDetail, ad
                   <div>
                     <h3 className="font-bold">Email</h3>
                     <p className="text-primary">
-                      {admin[0].email}
+                      {admin.email}
                     </p>
                   </div>
                   <div>
                     <h3 className="font-bold">Whatsapp</h3>
                     <p className="text-primary">
-                      {admin[0].phone}
+                      {admin.phone}
                     </p>
                   </div>
                 </div>

@@ -30,7 +30,7 @@ class ServiceController extends Controller
     public function groomingStatus($id_transaction)
     {
         $transaction = Transaction::where('id', $id_transaction)->first();
-        $detailTransaction = DetailTransaction::where('transaction_id', $transaction->id);
+        $detailTransaction = DetailTransaction::where('transaction_id', $id_transaction)->first();
         return inertia('Customer/Service/Grooming/status', [
             'transaction' => $transaction,
             'detailTransaction' => $detailTransaction
@@ -39,22 +39,18 @@ class ServiceController extends Controller
 
     public function petHotel()
     {
-        $price_service = ServicePet::where('type_service', 'pet_hotel')->first();
-        return inertia('Customer/Service/PetHotel/petHotel', [
-            'price_service' => $price_service->price_service
-        ]);
+        return inertia('Customer/Service/PetHotel/petHotel');
     }
 
     public function petHoteUpdate(Request $request)
     {
-        // dd($request->all());
         $dateCheckin = Carbon::parse($request->date_checkin);
         $dateCheckout = Carbon::parse($request->date_checkout);
         $quantity = $dateCheckout->diffInDays($dateCheckin);
 
         $service = ServicePet::where('type_service', 'pet_hotel')->first();
 
-        $total = $quantity > 0 ? $quantity * $service->price_service += $service->price_service : $service->price_service;
+        $total = $quantity > 0 ? $quantity * $service->price_service : 0;
 
         session()->flash('data', $total);
     }
@@ -62,7 +58,7 @@ class ServiceController extends Controller
     public function petHotelStatus($id_transaction)
     {
         $transaction = Transaction::where('id', $id_transaction)->first();
-        $detailTransaction = DetailTransaction::where('transaction_id', $transaction->id);
+        $detailTransaction = DetailTransaction::where('transaction_id', $transaction->id)->first();
         return inertia('Customer/Service/PetHotel/status', [
             'transaction' => $transaction,
             'detailTransaction' => $detailTransaction

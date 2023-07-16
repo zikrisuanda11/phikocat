@@ -11,13 +11,9 @@ import toast, { Toaster } from 'react-hot-toast';
 export default function Product({ product, flash, count_product }) {
   const { auth } = usePage().props
 
-  console.log(flash);
-
   useEffect(() => {
     if (flash.message) {
-      toast(flash.message, {
-        icon: '✅'
-      })
+      toast.success(flash.message)
     }
     Inertia.post('/clear-flash')
   }, [flash.message])
@@ -36,12 +32,12 @@ export default function Product({ product, flash, count_product }) {
       <div className="flex flex-col mt-10  justify-center items-center">
         <h4 className="text-3xl my-4">Produk Pet</h4>
         <SearchFilter url={'product.index'} />
-        <Toaster />
+        <Toaster position="center-bottom"/>
       </div>
       <div className="px-10 py-10 flex flex-wrap gap-10 justify-center">
         {product ?
           product.map((data, index) => (
-            <div className="shadow-md">
+            <div className="shadow-md" key={data.id}>
               <Card sx={{
                 width: 250,
                 boxShadow: 0,

@@ -10,8 +10,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import RupiahFormat from "@/Helper/RupiahFormat";
 
 export default function ConfirmPayment({ transactions, flash }) {
-  // console.log(transactions);
-  console.log(flash);
 
   useEffect(() => {
     if (flash.message) {
@@ -61,7 +59,6 @@ export default function ConfirmPayment({ transactions, flash }) {
       align: 'center',
       width: 100,
       renderCell: (params) => {
-        // console.log(params);
         return (
           <>
             {params.row.status_transaction == 'pending' &&
@@ -72,7 +69,6 @@ export default function ConfirmPayment({ transactions, flash }) {
                 title={'Confirm'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                // href={`/admin/histories/${params.id}/detail`}
                 disableElevation
               />
             }
@@ -92,10 +88,10 @@ export default function ConfirmPayment({ transactions, flash }) {
           <div className="flex-col mr-8">
             <div className="flex justify-between">
               <div className="flex-col">
-                <h1 className="text-lg font-semibold text-gray-900">History</h1>
+                <h1 className="text-lg font-semibold text-gray-900">Confirm Payment</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'History', href: '/admin/histories', color: 'inherit', key: '1' },
+                    { name: 'Confirm Payment', href: '/admin/confirm', color: 'inherit', key: '1' },
                     { name: 'Table', color: 'text.primary', key: '2' },
                   ]}
                 />
@@ -110,12 +106,6 @@ export default function ConfirmPayment({ transactions, flash }) {
                   initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
                   slots={{
                     toolbar: GridToolbar,
-                  }}
-                  slotProps={{
-                    toolbar: {
-                      showQuickFilter: true,
-                      quickFilterProps: { debounceMs: 500 },
-                    },
                   }}
                 />
               </div>

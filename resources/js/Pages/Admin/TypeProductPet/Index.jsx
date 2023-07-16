@@ -139,7 +139,7 @@ export default function TypeProduct({ datas, flash }) {
           <div className="flex-col mr-8">
             <div className="flex justify-between">
               <div className="flex-col">
-                <h1 className="text-lg font-semibold text-gray-900">Produk</h1>
+                <h1 className="text-lg font-semibold text-gray-900">Type product</h1>
                 <Breadcrumb
                   breadcrumbs={[
                     { name: 'TypeProduct', href: '/admin/type-products', color: 'inherit', key: '1' },

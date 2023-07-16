@@ -15,20 +15,11 @@ class ProfileController extends Controller
     {
         $user = User::where('id', auth()->user()->id)->first();
         $transaction = Transaction::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(5);
+        $transaction->load('typeTransaction');
         return inertia('Customer/Profile/index', [
             'user' => $user,
             'transactions' => $transaction
         ]);
-    }
-
-    public function store(Request $request)
-    {
-        $path = Storage::put('public/photo_profile', $request->file('photo_profile'));
-        $pathUrl = Storage::url($path);
-
-        User::create([]);
-
-        return redirect()->route('products.index')->with('message', 'Data Berhasil Disimpan');
     }
 
     public function update(Request $request, $id)

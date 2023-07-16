@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\ServicePetController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\TypeProductController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailTransaction;
+use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\User\ProfileController;
 
 /*
@@ -27,39 +29,9 @@ use App\Http\Controllers\User\ProfileController;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
-// if(Route::middleware(['auth','role:admin'])){
-//     Route::get('/', function () {
-//         return Inertia::render('Landing/index');
-//     })->name('landing');
-// }
-
-
 Route::get('/', function () {
     return Inertia::render('Landing/index');
 })->name('landing');
-
-Route::get('tes', function () {
-    return view('tes');
-});
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 Route::get('/services', [ServiceController::class, 'index'])->name('service.index');
@@ -74,6 +46,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/histories', [HistoryController::class, 'index']);
         Route::get('/histories/{id}/detail', [HistoryController::class, 'detail']);
     });
+    
+    Route::middleware(['role:admin|customer'])->group(function(){
+        Route::get('detail-transaction/{id}', [DetailTransactionController::class, 'show']);        
+    });
 
     Route::middleware('role:admin')->prefix('admin')->group(function () {
         Route::resource('/products', ProductPetController::class)->except('update');
@@ -85,8 +61,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('/type-products', TypeProductController::class);
     });
 
-    Route::middleware('role:manager')->group(function () {
-    });
+    // Route::middleware('role:manager')->group(function () {
+    // });
 
     Route::middleware('role:customer')->group(function () {
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -96,19 +72,18 @@ Route::middleware('auth')->group(function () {
         Route::put('/decrement-cart', [CartController::class, 'decrement']);
         Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 
-        Route::post('/checkout', [TransactionController::class, 'store']);
+        Route::post('/checkout', [TransactionController::class, 'product']);
         Route::post('/checkout/grooming', [TransactionController::class, 'grooming']);
         Route::get('/checkout/grooming/{id_transaction}', [ServiceController::class, 'groomingStatus'])->name('checkout.grooming.groomingStatus');
         Route::post('/checkout/pet-hotel', [TransactionController::class, 'petHotel']);
         Route::get('/checkout/pet-hotel/{id_transaction}', [ServiceController::class, 'petHotelStatus'])->name('checkout.petHotel.petHotelStatus');
-
 
         Route::get('services/transaction/grooming', [ServiceController::class, 'grooming'])->name('service.transaction.grooming');
         Route::get('services/transaction/pet-hotel', [ServiceController::class, 'petHotel'])->name('service.transaction.pet_hotel');
         Route::post('services/transaction/pet-hotel', [ServiceController::class, 'petHoteUpdate']);
 
         Route::get('transaction/{id}', [TransactionController::class, 'show'])->name('transaction.show');
-        Route::get('transaction/payment/transfer/{snap_token}', [TransactionController::class, 'paymentTransfer'])->name('transaction.paymentTransfer');
+        Route::get('transaction/payment/transfer/{id}', [TransactionController::class, 'paymentTransfer'])->name('transaction.paymentTransfer');
         Route::get('transaction/payment/cash', [TransactionController::class, 'paymentCash'])->name('transaction.paymentCash');
 
         Route::get('profile', [ProfileController::class, 'index']);
