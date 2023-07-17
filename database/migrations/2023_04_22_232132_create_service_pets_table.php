@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name_service');
             $table->bigInteger('price_service');
-            $table->enum('type_service', ['grooming', 'pet_hotel'])->unique();
+            $table->enum('type_service', ['grooming', 'pet_hotel']);
             $table->text('description_service');
             $table->timestamps();
         });
