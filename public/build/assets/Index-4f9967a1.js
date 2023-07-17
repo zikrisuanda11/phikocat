@@ -1,0 +1,1 @@
+import{j as o}from"./app-a381c4b7.js";function d({type:r,id:t,value:e,onChange:s,placeholder:m,customClass:u}){return o("input",{required:!0,type:r,id:t,placeholder:m,value:e,onChange:s,className:`mt-1 w-full rounded-md border-gray-200 shadow-sm sm:text-sm ${u}`})}export{d as I};

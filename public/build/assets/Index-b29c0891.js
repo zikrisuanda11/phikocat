@@ -1,0 +1,1 @@
+import{j as r,F as t}from"./app-a381c4b7.js";function b({id:e,customClass:a,onChange:o,value:l,placeholder:s}){return r(t,{children:r("textarea",{value:l,onChange:o,id:e,rows:"4",className:`block p-2.5 w-full text-sm  bg-gray-50 rounded-lg border border-gray-300 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 ${a}`,placeholder:s})})}export{b as T};

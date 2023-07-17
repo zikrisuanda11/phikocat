@@ -1,0 +1,1 @@
+import{j as f}from"./app-a381c4b7.js";import{B as l}from"./Button-1729f5c4.js";function x({title:r,size:o,variant:e,backgroundColor:t,textColor:i,endIcon:s,href:a,type:n,onClick:m}){return f(l,{onClick:m,href:a,type:n,sx:{textTransform:"Capitalize",backgroundColor:t,color:i,":hover":{backgroundColor:t}},disableElevation:!0,size:o,variant:e,endIcon:s,children:r})}export{x as B};
