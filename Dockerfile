@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libssl-dev zlib1g-dev curl git unzip libxml2-dev libpq-dev libzip-dev && \
