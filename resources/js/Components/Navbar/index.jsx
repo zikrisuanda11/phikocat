@@ -47,8 +47,7 @@ export default function Navbar() {
         </a>
       </div>
       <div className="flex gap-10 my-auto font-sans">
-        <p className="hover:cursor-pointer">Pelayanan</p>
-        <p className="hover:cursor-pointer">Kontak</p>
+        <a href="/">Home</a>
         <a href="/product">Product</a>
         <a href="/services">Service</a>
       </div>

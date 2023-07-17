@@ -42,7 +42,8 @@ export default function Product({ product, flash, count_product }) {
                 width: 250,
                 boxShadow: 0,
                 border: 1,
-                borderColor: '#e2e8f0'
+                borderColor: '#e2e8f0',
+                height: '100%'
               }}
                 key={data.id}
               >
@@ -58,8 +59,9 @@ export default function Product({ product, flash, count_product }) {
                     <p className="">{data.name_product}</p>
                   </div>
                   <div>
+                    {console.log(data)}
                     <p className="font-semibold text-lg">Deskripsi :</p>
-                    <p className="">Example Name</p>
+                    <p className="">{data.description_product}</p>
                   </div>
                   <div>
                     <p className="font-semibold text-lg">Harga :</p>

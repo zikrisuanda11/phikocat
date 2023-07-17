@@ -6,10 +6,15 @@ import { InertiaLink, usePage } from "@inertiajs/inertia-react"
 import { Button } from "@mui/material";
 import Navbar from "@/Components/Navbar";
 import IndexLayout from "@/Layouts/IndexLayout";
+import { useRef } from "react";
 
 
 function Landing({count_product}){
   const {auth} = usePage().props
+  const targetRef = useRef(null)
+  const handleButtonClick = () => {
+    targetRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <IndexLayout>
@@ -22,7 +27,7 @@ function Landing({count_product}){
             </h1>
             <p className="text-lg">Menjaga kesehatan peliharaan sangat penting</p>
             <div>
-              <Buttons variant={'contained'} size={'large'} title={'Layanan Kami'} backgroundColor={'#124C5F'} endIcon={<KeyboardArrowRight />} />
+              <Buttons onClick={handleButtonClick} variant={'contained'} size={'large'} title={'Layanan Kami'} backgroundColor={'#124C5F'} endIcon={<KeyboardArrowRight />} />
             </div>
           </div>
           <div>
@@ -30,7 +35,7 @@ function Landing({count_product}){
           </div>
         </header>
 
-        <section className="px-10 py-28">
+        <section className="px-10 py-28" ref={targetRef} id="target">
           <h4 className="text-3xl text-center my-10">Pelayanan Servis Kami</h4>
           <div className="flex flex-wrap justify-center gap-20">
             <div className="w-[20rem] h-auto hover:shadow-lg p-6 rounded-lg text-black bg-white flex flex-col gap-5">
