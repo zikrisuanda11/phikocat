@@ -14,7 +14,7 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('user', 'typeTransaction')->get();
+        $transactions = Transaction::with('user', 'typeTransaction')->orderBy('date_transaction', 'desc')->get();
         $detailTransaction = DetailTransaction::with('productPets', 'servicePet')->get();
         // TODO buat history transaksi bisa di click detail
         return inertia('Admin/History/Index', [

@@ -2,10 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\ProductPet;
-use Illuminate\Http\Request;
+use App\Models\Cart;
+use App\Models\User;
 use Inertia\Middleware;
+use App\Models\ProductPet;
 use Tightenco\Ziggy\Ziggy;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -31,36 +35,42 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if($request->user()){
-            $product = ProductPet::all();
-
+        if (auth()->user()) {
+            // $product = ProductPet::all();
             return array_merge(parent::share($request), [
                 'flash' => [
-                    'message' => $request->session()->get('success'),
+                    'message' => $request->session()->get('message'),
+                    'error' => $request->session()->get('error'),
+                    'data' => $request->session()->get('data'),
                 ],
                 'auth' => [
                     'user' => $request->user(),
-                    'product' => $product
+                    'roles' => Auth::user()->hasRole('admin'),
+                    // 'product' => $product
                 ],
+                'admin' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'admin');
+                    })->first(),
                 'ziggy' => function () use ($request) {
                     return array_merge((new Ziggy)->toArray(), [
                         'location' => $request->url(),
                     ]);
                 },
+                'count_product' => Cart::where('user_id', auth()->user()->id)->count(),
             ]);
         } else {
             return array_merge(parent::share($request), [
                 'flash' => [
-                    'message' => $request->session()->get('success'),
+                    'message' => $request->session()->get('message'),
                 ],
                 'auth' => [
-                    'user' => $request->user()
+                    'user' => $request->user(),
                 ],
                 'ziggy' => function () use ($request) {
                     return array_merge((new Ziggy)->toArray(), [
                         'location' => $request->url(),
                     ]);
-                },
+                }
             ]);
         }
     }

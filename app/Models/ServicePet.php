@@ -16,5 +16,8 @@ class ServicePet extends Model
         return $this->hasMany(DetailTransaction::class);
     }
 
-    
+    public function Carts()
+    {
+        return $this->hasMany(Cart::class, 'id_service');
+    }
 }

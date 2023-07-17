@@ -22,6 +22,8 @@ class ProductPetController extends Controller
         return inertia('Admin/ProductPet/Index', [
             'datas' => $datas
         ]);
+
+        // return route('products.index')
     }
 
     /**

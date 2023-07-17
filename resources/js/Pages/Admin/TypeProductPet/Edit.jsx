@@ -14,7 +14,7 @@ export default function Edit({typeProductPet}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    Inertia.put(`/type-products/${typeProductPet.id}`, {
+    Inertia.put(`/admin/type-products/${typeProductPet.id}`, {
       name_type: name_type,
     })
   }
@@ -29,8 +29,8 @@ export default function Edit({typeProductPet}) {
                 <h1 className="text-lg font-semibold text-gray-900">Product</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'TypeProduct', href: '/type-products' ,key: '1' },
-                    { name: 'Table', href: '/type-products', key: '2' },
+                    { name: 'TypeProduct', href: '/admin/type-products' ,key: '1' },
+                    { name: 'Table', href: '/admin/type-products', key: '2' },
                     { name: 'Edit TypeProduct', key: '3' },
                   ]}
                 />
@@ -71,7 +71,7 @@ export default function Edit({typeProductPet}) {
                           title={'Cancel'}
                           backgroundColor={'#C7E7E1'}
                           textColor={'#124C5F'}
-                          href={'/type-products'}
+                          href={'/admin/type-products'}
                         />
                       </div>
                     </div>

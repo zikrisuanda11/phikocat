@@ -5,6 +5,7 @@ import Buttons from "@/Components/Buttons/Index";
 import Breadcrumb from '@/Components/Breadcrumb/Index'
 import Modal from "@/Components/Modal/Detail";
 import { usePage } from "@inertiajs/inertia-react";
+import RupiahFormat from "@/Helper/RupiahFormat";
 
 export default function ProductPet({ transactions, detail_transaction }) {
 
@@ -31,14 +32,21 @@ export default function ProductPet({ transactions, detail_transaction }) {
   }))
 
   const columns = [
-    { field: 'no', headerName: 'No', width: 120, headerAlign: 'center', align: 'center' },
+    { field: 'no', headerName: 'No', width: 70, headerAlign: 'center', align: 'center' },
     { field: 'name_user', headerName: 'Nama Customer', width: 150 },
-    { field: 'date_transaction', headerName: 'Tanggal Transaksi', width: 200 },
-    { field: 'amount', headerName: 'Harga', width: 120 },
-    { field: 'type_transaction_name', headerName: 'Type Transaksi', width: 150 },
+    { field: 'date_transaction', headerName: 'Tanggal Transaksi', width: 170 },
+    { 
+      field: 'amount', 
+      headerName: 'Harga', 
+      width: 120 ,
+      renderCell: (params) => {
+        return RupiahFormat(params.row.amount)
+      }
+    },
+    { field: 'type_transaction_name', headerName: 'Type Transaksi', width: 130 },
     { field: 'type_payment', headerName: 'Type Pembayaran', width: 150 },
-    { field: 'status_transaction', headerName: 'Status Transaksi', width: 150 },
-    { field: 'evidence_of_transfer', headerName: 'Bukti Transaksi', width: 200 },
+    { field: 'status_transaction', headerName: 'Status Transaksi', width: 120 },
+    // { field: 'evidence_of_transfer', headerName: 'Bukti Transaksi', width: 200 },
     {
       field: 'id',
       sortable: false,
@@ -56,7 +64,7 @@ export default function ProductPet({ transactions, detail_transaction }) {
                 title={'View'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                href={`/histories/${params.id}/detail`}
+                href={`/admin/histories/${params.id}/detail`}
                 disableElevation
               />
             </div>
@@ -84,7 +92,7 @@ export default function ProductPet({ transactions, detail_transaction }) {
                 <h1 className="text-lg font-semibold text-gray-900">History</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'History', href: '/histories', color: 'inherit', key: '1' },
+                    { name: 'History', href: '/admin/histories', color: 'inherit', key: '1' },
                     { name: 'Table', color: 'text.primary', key: '2' },
                   ]}
                 />

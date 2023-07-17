@@ -13,9 +13,13 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                inter: 'Inter',
+                roboto: 'Roboto'
             },
             colors: {
-                primary: '#124C5F'
+                primary: '#124C5F',
+                secondary: '#C7E7E1',
+                grey_pink: '#F8F8F8'
             }
         },
     },

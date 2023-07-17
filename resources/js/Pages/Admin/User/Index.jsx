@@ -37,7 +37,7 @@ export default function User({ users, flash }) {
   }, [flash.message]);
 
   const handleDelete = () => {
-    Inertia.delete(`/users/${modalContent.current.id}`)
+    Inertia.delete(`/admin/users/${modalContent.current.id}`)
     handleOnClose();
   }
 
@@ -95,7 +95,7 @@ export default function User({ users, flash }) {
                 title={'Edit'}
                 backgroundColor={'#C7E7E1'}
                 textColor={'#124C5F'}
-                href={`/users/${params.id}/edit`}
+                href={`/admin/users/${params.id}/edit`}
               />
               <Buttons
                 variant={'contained'}
@@ -158,10 +158,10 @@ export default function User({ users, flash }) {
           <div className="flex-col mr-8">
             <div className="flex justify-between">
               <div className="flex-col">
-                <h1 className="text-lg font-semibold text-gray-900">Produk</h1>
+                <h1 className="text-lg font-semibold text-gray-900">User</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'Users', href: '/users', color: 'inherit', key: '1' },
+                    { name: 'Users', href: '/admin/users', color: 'inherit', key: '1' },
                     { name: 'Table', color: 'text.primary', key: '2' },
                   ]}
                 />
@@ -172,7 +172,7 @@ export default function User({ users, flash }) {
                   size={'medium'}
                   title={'Tambah Data'}
                   backgroundColor={'#124C5F'}
-                  href={'/users/create'}
+                  href={'/admin/users/create'}
                 />
               </div>
             </div>

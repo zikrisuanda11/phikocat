@@ -21,8 +21,8 @@ export default function ProductPet({ transaction }) {
                 <h1 className="text-lg font-semibold text-gray-900">History</h1>
                 <Breadcrumb
                   breadcrumbs={[
-                    { name: 'History', href: '/histories', color: 'inherit', key: '1' },
-                    { name: 'Table', href: '/histories', color: 'inherit', key: '2' },
+                    { name: 'History', href: '/admin/histories', color: 'inherit', key: '1' },
+                    { name: 'Table', href: '/admin/histories', color: 'inherit', key: '2' },
                     { name: 'Detail', color: 'text.primary', key: '3' },
                   ]}
                 />
