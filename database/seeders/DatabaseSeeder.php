@@ -23,12 +23,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
-            TypeProductPetSeeder::class,
-            ProductPetSeeder::class,
-            ServicePetSeeder::class,
-            TypeTransactionSeeder::class,
-            TransactionSeeder::class,
-            DetailTransactionSeeder::class
+            // TypeProductPetSeeder::class,
+            // ProductPetSeeder::class,
+            // ServicePetSeeder::class,
+            // TypeTransactionSeeder::class,
+            // TransactionSeeder::class,
+            // DetailTransactionSeeder::class
         ]);
     }
 }
