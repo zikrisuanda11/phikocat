@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
                     'data' => $request->session()->get('data'),
                 ],
                 'auth' => [
-                    'user' => $request->user(),
+                    'user' => auth()->user(),
                     'roles' => Auth::user()->hasRole('admin'),
                     // 'product' => $product
                 ],
@@ -62,6 +62,7 @@ class HandleInertiaRequests extends Middleware
             return array_merge(parent::share($request), [
                 'flash' => [
                     'message' => $request->session()->get('message'),
+                    'error' => $request->session()->get('error'),
                 ],
                 'auth' => [
                     'user' => $request->user(),

@@ -40,14 +40,17 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'is_active' => true
         ]);
+
+        $user->assignRole('customer');
 
         event(new Registered($user));
 
         // Auth::login($user);
 
-        return redirect('login');
+        return redirect('login')->with('message', 'Berhasil mendaftar silahkan login');
     }
 }

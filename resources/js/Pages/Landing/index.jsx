@@ -1,24 +1,36 @@
 import Buttons from "@/Components/Buttons/Index"
 import { KeyboardArrowRight } from "@mui/icons-material";
 import HeaderImage from "../../../../public/header-img.png";
-import { Link } from "@inertiajs/react";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react"
 import { Button } from "@mui/material";
-import Navbar from "@/Components/Navbar";
 import IndexLayout from "@/Layouts/IndexLayout";
 import { useRef } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { Inertia } from '@inertiajs/inertia';
 
-
-function Landing({count_product}){
+function Landing({flash}){
+  console.log(flash)
   const {auth} = usePage().props
   const targetRef = useRef(null)
   const handleButtonClick = () => {
     targetRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    if (flash.message) {
+      toast.success(flash.message)
+    }
+    if (flash.error) {
+      toast.error(flash.error)
+    }
+    Inertia.post('/clear-flash')
+  }, [flash.message, flash.error])
+
   return (
     <IndexLayout>
         {/* header section */}
+        <Toaster position="center-bottom" />
         <header className="h-[70vh] grid grid-cols-2 content-center px-24 py-3">
           <div className="flex flex-col gap-5 my-auto">
             <h1 className="text-4xl">

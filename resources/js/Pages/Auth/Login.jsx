@@ -6,8 +6,11 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, InertiaLink, useForm } from '@inertiajs/inertia-react';
+import toast, { Toaster } from 'react-hot-toast';
+import { Inertia } from '@inertiajs/inertia';
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, canResetPassword, flash, auth }) {
+    // console.log(auth);
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -26,9 +29,20 @@ export default function Login({ status, canResetPassword }) {
         post(route('login'));
     };
 
+    useEffect(() => {
+        if (flash.message) {
+            toast.success(flash.message)
+        }
+        if (flash.error) {
+            toast.error(flash.error)
+        }
+        Inertia.post('/clear-flash')
+    }, [flash.message, flash.error])
+
     return (
         <GuestLayout>
             <Head title="Log in" />
+            <Toaster position="center-bottom" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -78,14 +92,14 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
+                    {/* {canResetPassword && (
                         <InertiaLink
                             href={route('password.request')}
                             className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Forgot your password?
                         </InertiaLink>
-                    )}
+                    )} */}
 
                     <PrimaryButton className="ml-4" disabled={processing}>
                         Log in

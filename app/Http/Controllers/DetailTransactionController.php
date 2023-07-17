@@ -28,6 +28,8 @@ class DetailTransactionController extends Controller
             ]);
         }
 
+        $transaction->load('user');
+
         return inertia('DetailTransaction/index', [
             'transactionDetails' => $transactionDetails,
             'transaction' => $transaction,

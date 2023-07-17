@@ -34,6 +34,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if(auth()->user()->is_active == null){
+            return $this->destroy($request)->with('error', 'Akun dinon-aktifkan');
+        }
+
         if(auth()->user()->hasRole('admin')){
             return redirect()->route('dashboard');
         }
