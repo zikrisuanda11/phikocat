@@ -41,7 +41,7 @@ build:
 deploy:
   only:
       - main
-  when: manual
+  # when: manual
   stage: deploy
   before_script:
     - 'which ssh-agent || ( apk update && apk add --no-cache openssh )'
