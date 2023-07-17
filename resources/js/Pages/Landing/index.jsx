@@ -1,6 +1,5 @@
 import Buttons from "@/Components/Buttons/Index"
 import { KeyboardArrowRight } from "@mui/icons-material";
-import HeaderImage from "../../../../public/header-img.png";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react"
 import { Button } from "@mui/material";
 import IndexLayout from "@/Layouts/IndexLayout";
@@ -43,7 +42,7 @@ function Landing({flash}){
             </div>
           </div>
           <div>
-            <img src={HeaderImage} alt="header-image" className="w-[35rem] mx-auto" />
+            <img src='/assets/img/header-img.png' alt="header-image" className="w-[35rem] mx-auto" />
           </div>
         </header>
 
