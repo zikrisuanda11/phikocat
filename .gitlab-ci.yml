@@ -52,4 +52,4 @@ deploy:
     - ssh-add ~/.ssh/id_rsa
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "export APP_IMAGE_STG=$CI_REGISTRY_IMAGE && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker container stop phikopets && docker container rm phikopets && docker image rm $CI_REGISTRY_IMAGE  && docker pull $CI_REGISTRY_IMAGE && docker container run -d --name phikopets --net=host $CI_REGISTRY_IMAGE "
+    - ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "export APP_IMAGE_STG=$CI_REGISTRY_IMAGE && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker container stop phikopets && docker container rm phikopets && docker image rm $CI_REGISTRY_IMAGE  && docker pull $CI_REGISTRY_IMAGE && docker container run -d --name phikopets --net=host -v /home/testing/phikopets:/app/storage $CI_REGISTRY_IMAGE "
