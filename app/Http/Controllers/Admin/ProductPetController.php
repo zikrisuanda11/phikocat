@@ -18,12 +18,9 @@ class ProductPetController extends Controller
     public function index()
     {
         $datas = ProductPet::with('typeProducts')->get();
-        // dd($data);
         return inertia('Admin/ProductPet/Index', [
             'datas' => $datas
         ]);
-
-        // return route('products.index')
     }
 
     /**

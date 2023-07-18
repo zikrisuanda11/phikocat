@@ -18,7 +18,6 @@ class ConfirmController extends Controller
 
     public function update(Request $request)
     {
-        // dd($request->id);
         $request->validate([
             'id' => 'required'
         ]);
@@ -27,7 +26,6 @@ class ConfirmController extends Controller
         $transaction->update([
             'status_transaction' => 'success'
         ]);
-        // dd($transaction);
 
         session()->flash('message', 'Berhasil konfirmasi pembayaran');
     }

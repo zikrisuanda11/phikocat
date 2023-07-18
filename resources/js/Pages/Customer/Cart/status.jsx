@@ -7,31 +7,28 @@ import { useEffect } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { Inertia } from "@inertiajs/inertia";
 
-export default function status({ flash,  transaction, detailTransaction, admin }) {
+export default function status({ flash, transaction, admin }) {
 
+  console.log(transaction);
   useEffect(() => {
     if (transaction.status_transaction === 'success') {
       toast.success('Berhasil melakukan pembayaran')
     }
+  }, [transaction.status_transaction, transaction.id]);
+
+  useEffect(() => {
     if (flash.message) {
       toast.success(flash.message)
     }
     Inertia.post('/clear-flash')
-  }, [transaction.status_transaction, transaction.id, flash.message]);
-
-  // useEffect(() => {
-  //   if (flash.message) {
-  //     toast.success(flash.message)
-  //   }
-  //   Inertia.post('/clear-flash')
-  // }, [flash.message])
+  }, [flash.message])
 
   return (
     <>
       <IndexLayout>
-        <Toaster 
+        <Toaster
           toastOptions={{
-            duration: 5000
+            duration: 2000
           }}
           position="bottom-center"
         />
@@ -51,8 +48,8 @@ export default function status({ flash,  transaction, detailTransaction, admin }
                     <p className="font-bold">#{transaction.id}</p>
                   </div>
                   <div className="my-3">
-                    <div className="text-xs text-slate-500">Date Grooming</div>
-                    <p className="font-bold">{detailTransaction.date_service}</p>
+                    <div className="text-xs text-slate-500">Date Transaction</div>
+                    <p className="font-bold">{transaction.date_transaction}</p>
                   </div>
                   <div className="my-3">
                     <div className="text-xs text-slate-500">Tipe Pembayaran</div>

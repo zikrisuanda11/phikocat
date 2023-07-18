@@ -24,7 +24,7 @@ class CartController extends Controller
             ->get();
         $total = $cartsTotal->sum('total_price');
         $midtranClientKey = config('services.midtrans.client');
-        return Inertia::render('Cart/index', [
+        return Inertia::render('Customer/Cart/index', [
             'carts' => $carts,
             'total_price' => $total,
             'midtranClientKey' => $midtranClientKey
@@ -48,14 +48,11 @@ class CartController extends Controller
         $user = auth()->user();
 
         $cart = Cart::where('product_id', $productId)->where('user_id', $user->id)->first();
-        // dd($cart);
         if($cart != null){
             $cart->update([
                 'quantity' => $cart->quantity + 1
             ]);
             session()->flash('message', 'Product ditambahkan');
-
-            // return redirect()->back()->with('message', 'Product ditambahkan');
         }else{
             Cart::create([
                 'user_id' => Auth::user()->id,
@@ -64,8 +61,6 @@ class CartController extends Controller
             ]);
 
             session()->flash('message', 'Product ditambahkan');
-
-            // return redirect()->back()->with('message', 'Product ditambahkan');
         }
     }
 

@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\ServicePetController;
 use App\Http\Controllers\User\TransactionController;
 use App\Http\Controllers\Admin\TypeProductController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DetailTransaction;
 use App\Http\Controllers\DetailTransactionController;
 use App\Http\Controllers\User\ProfileController;
 

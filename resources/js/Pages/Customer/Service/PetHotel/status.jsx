@@ -10,17 +10,14 @@ import { Inertia } from "@inertiajs/inertia";
 export default function status({ flash,  transaction, detailTransaction, admin }) {
 
   useEffect(() => {
-    transaction
-  }, [transaction])
-
-  useEffect(() => {
+    if (transaction.status_transaction === 'success') {
+      toast.success('Berhasil melakukan pembayaran')
+    }
     if (flash.message) {
-      toast(flash.message, {
-        icon: '✅'
-      })
+      toast.success(flash.message)
     }
     Inertia.post('/clear-flash')
-  }, [flash.message])
+  }, [transaction.status_transaction, transaction.id, flash.message]);
 
   return (
     <>
@@ -64,6 +61,13 @@ export default function status({ flash,  transaction, detailTransaction, admin }
                     <div className="text-xs text-slate-500">Status Pembayaran</div>
                     <p className="font-bold">{transaction.status_transaction}</p>
                   </div>
+                  {transaction.status_transaction == 'success' &&
+                    <div className="my-3">
+                      <div className="text-xs text-slate-500">Detail Transaksi</div>
+                      <p className="font-bold"><a className="hover:text-primary" href={`/detail-transaction/${transaction.id}`}>klik disini</a></p>
+                    </div>
+
+                  }
 
                 </div>
               </div>

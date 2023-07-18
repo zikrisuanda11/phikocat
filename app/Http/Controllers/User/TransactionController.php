@@ -15,7 +15,6 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductPet;
 use App\Models\ServicePet;
 
-// TODO UBAH $request->user_id jadi auth()->user() nanti
 class TransactionController extends Controller
 {
     /**
@@ -24,28 +23,16 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
 
-        // dd($userId);
-        // $transaction = Transaction::all();
         $transaction = Transaction::with('detailTransactions', 'typeTransaction', 'user')->where('user_id', $request->query('user_id'))->get();
-        // dd($transaction);
         return response()->json([
             'message' => 'Success get data',
             'data' => $transaction
         ]);
-        // try{
-        // }catch (\Exception $e){
-        //     return response()->json([
-        //         'message' => 'data not found',
-        //         'error' => $e->getMessage()
-        //     ], 500);
-        // }
 
     }
 
     public function petHotel(Request $request)
     {
-        // checkout dikurangin checkin untuk mendapatkan brp hari dia nginap
-        // dd($request->all());
         $user = auth()->user();
         $request->validate([
             'type_transaction_id' => 'required',
@@ -93,9 +80,8 @@ class TransactionController extends Controller
                 ]);
 
                 DB::commit();
-                return to_route('checkout.petHotel.petHotelStatus', ['id_transaction' => $transaction->id]);
+                return to_route('checkout.petHotel.petHotelStatus', ['id_transaction' => $transaction->id])->with('message', 'Silahkan lakukan pembayaran dikasir');
             } catch (\Exception $e) {
-                // TODO ubah jadi flash error
                 return response()->json($e->getMessage());
             }
         }
@@ -146,7 +132,6 @@ class TransactionController extends Controller
                 DB::commit();
                 return redirect()->route('transaction.paymentTransfer', ['id' => $transaction->id]);
             } catch (\Exception $e) {
-                // TODO ubah jadi flash error
                 return response()->json($e->getMessage());
             }
         }
@@ -215,13 +200,10 @@ class TransactionController extends Controller
                 return redirect()->route('transaction.paymentTransfer', ['id' => $transaction->id]);
             } catch (\Exception $e) {
                 return response()->json($e->getMessage());
-                // TODO ubah jadi flash error
-                // session()->flash('error', 'Gagal melakukan transaksi');
             }
         }
         if ($request->type_payment == 'cod') {
             try {
-                // dd('initereksekusi');
                 DB::beginTransaction();
 
                 $transaction = Transaction::create([
@@ -242,11 +224,9 @@ class TransactionController extends Controller
                 ]);
 
                 DB::commit();
-                return to_route('checkout.grooming.groomingStatus', ['id_transaction' => $transaction->id]);
+                return to_route('checkout.grooming.groomingStatus', ['id_transaction' => $transaction->id])->with('message', 'Silahkan lakukan pembayaran dikasir');
             } catch (\Exception $e) {
                 return response()->json($e->getMessage());
-                // TODO ubah jadi flash error
-                // session()->flash('error', 'Gagal melakukan transaksi');
             }
         }
     }
@@ -407,8 +387,6 @@ class TransactionController extends Controller
                     'error' => $e->getMessage()
                 ], 500);
             }
-            // checkout semua cart ubah status_transaction pending dan buat pesan tunggu konfirmasi dari admin
-            // return redirect()->route('cart.show');
         }
     }
 
@@ -416,7 +394,7 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::find($id);
         $transactionDetail = DetailTransaction::where('transaction_id', $transaction->id)->get();
-        return inertia('Cart/status', [
+        return inertia('Customer/Cart/status', [
             'transaction' => $transaction,
             'transactionDetail' => $transactionDetail
         ]);

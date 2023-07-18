@@ -32,7 +32,6 @@ class ProfileController extends Controller
         $user = User::find($id);
 
         if ($request->file('photo_profile') == null) {
-            // dd('initereksekuasi');
             $user->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
@@ -55,10 +54,5 @@ class ProfileController extends Controller
     
             return session()->flash('message', 'Berhasil mengubah profile');
         }
-
-        // return response()->json([
-        //     'message' => 'success updated',
-        //     'data' => $user
-        // ]);
     }
 }
