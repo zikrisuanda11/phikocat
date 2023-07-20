@@ -37,6 +37,7 @@ class TransactionController extends Controller
         $request->validate([
             'type_transaction_id' => 'required',
             'type_payment' => 'required',
+            'date_service' => 'required',
             'date_checkin' => 'required',
             'date_checkout' => 'required',
         ]);
@@ -76,7 +77,9 @@ class TransactionController extends Controller
                     'quantity' => $quantity == 0 ? 1 : $quantity,
                     'date_checkin' => $request->date_checkin,
                     'date_out' => $request->date_checkout,
+                    'date_service' => $request->date_service,
                     'amount' => $total,
+                    'description' => $request->description
                 ]);
 
                 DB::commit();
@@ -101,9 +104,11 @@ class TransactionController extends Controller
                     'transaction_id' => $transaction->id,
                     'service_id' => $service->id,
                     'quantity' => $quantity == 0 ? 1 : $quantity,
+                    'date_service' => $request->date_service,
                     'date_checkin' => $request->date_checkin,
                     'date_out' => $request->date_checkout,
                     'amount' => $total,
+                    'description' => $request->description
                 ]);
 
                 Config::$serverKey = config('services.midtrans.server');

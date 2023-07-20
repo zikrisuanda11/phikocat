@@ -9,9 +9,11 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { Inertia } from "@inertiajs/inertia";
 import dayjs from "dayjs";
 import DateFormat from '@/Helper/DateFormat'
+import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 
 export default function grooming({ total_price }) {
   const [dateService, setDateService] = useState(DateFormat(new Date()));
+  console.log(dateService);
   const [typePayment, setTypePayment] = React.useState('cod');
   const handleCheckout = () => {
     Inertia.post('/checkout/grooming', {
@@ -28,11 +30,12 @@ export default function grooming({ total_price }) {
           <h1 className="text-3xl font-serif">Grooming</h1>
           <div className="w-full">
             <div className="flex gap-5 mx-56 justify-center  mt-10">
-              <div className="border shadow-md p-5 rounded-xl w-4/12 flex flex-col items-center justify-center">
-              <div className="text-gray-500">Silahkan pilih tanggal grooming</div>
+              <div className="border shadow-md p-5 rounded-xl w-6/12 flex flex-col items-center justify-center">
+                <div className="text-gray-500 mb-5">Silahkan pilih tanggal penjemputan hewan peliharaan</div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DateCalendar 
-                    onChange={(newValue) => {setDateService(dayjs(newValue))}}
+                  <StaticDateTimePicker
+                    orientation="landscape"
+                    onChange={(newValue) => { setDateService(dayjs(newValue).format('YYYY-MM-DDTHH:mm:ss.SSSZ')) }}
                   />
                 </LocalizationProvider>
               </div>

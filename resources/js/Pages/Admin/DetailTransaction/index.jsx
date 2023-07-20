@@ -71,14 +71,37 @@ export default function index({ transactionDetails, transaction, typeTransaction
                     <Divider />
                   </header>
                   <div className="flex flex-col gap-2 my-2">
-                    <p className="text-gray-500">Jum'at, 14 July 2023</p>
+                    {transactionDetails.map((transactionDetail) => {
+                      return (
+                        <div key={transactionDetail.id}>
+                          {transactionDetail.service_pet.type_service === 'pet_hotel' && (
+                            <>
+                              <p className="font-medium">Date Check-IN</p>
+                              <p className="text-gray-500">{transactionDetail.date_checkin}</p>
+                              <p className="font-medium">Date Check-OUT</p>
+                              <p className="text-gray-500">{transactionDetail.date_out}</p>
+                              <p className="font-medium">Pickup Schedule</p>
+                              <p className="text-gray-500">{transactionDetail.date_service}</p>
+                              <p className="font-medium">Pet description</p>
+                              <p className="text-gray-500">{transactionDetail.description}</p>
+                            </>
+                          )}
+                          {transactionDetail.service_pet.type_service === 'grooming' && (
+                            <>
+                              <p className="font-medium">Date Grooming & Pickup pet</p>
+                              <p className="text-gray-500">{transactionDetail.date_service}</p>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
                     <div>
-                      <p className="font-medium">Zikri</p>
-                      <p className="text-gray-500">083125569092</p>
+                      <p className="font-medium">{transaction.user.name}</p>
+                      <p className="text-gray-500">{transaction.user.phone}</p>
                     </div>
                     <div>
                       <p className="font-medium">Order Status</p>
-                      <p className="text-gray-500">Status Order: success</p>
+                      <p className="text-gray-500">Status Order: {transaction.status_transaction}</p>
                     </div>
                   </div>
                   <div className="mt-5">

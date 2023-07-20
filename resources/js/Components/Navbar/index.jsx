@@ -40,7 +40,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-10 bg-white/80 shadow-md backdrop-blur-xl flex justify-between content-center px-10 py-3">
+    <nav className="sticky top-0 z-10 bg-white/80 shadow-md backdrop-blur-md flex justify-between content-center px-10 py-3">
       <div className="my-auto">
         <a href='/'>
           <img src={Logo} className="w-10" />

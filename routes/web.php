@@ -33,6 +33,7 @@ Route::get('/', function () {
 })->name('landing');
 
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+Route::put('/product', [ProductController::class, 'update'])->name('product.update');
 Route::get('/services', [ServiceController::class, 'index'])->name('service.index');
 Route::post('/clear-flash', function (Request $request) {
     $request->session()->forget('message');

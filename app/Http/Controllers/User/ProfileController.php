@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\DetailTransaction;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,10 +16,12 @@ class ProfileController extends Controller
     {
         $user = User::where('id', auth()->user()->id)->first();
         $transaction = Transaction::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->paginate(5);
+        // $detailTransaction = DetailTransaction::paginate(5);
         $transaction->load('typeTransaction');
         return inertia('Customer/Profile/index', [
             'user' => $user,
-            'transactions' => $transaction
+            'transactions' => $transaction,
+            // 'detailTransaction' => $detailTransaction
         ]);
     }
 

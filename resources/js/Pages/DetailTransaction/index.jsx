@@ -80,11 +80,15 @@ export default function index({ transactionDetails, transaction, typeTransaction
                               <p className="text-gray-500">{transactionDetail.date_checkin}</p>
                               <p className="font-medium">Date Check-OUT</p>
                               <p className="text-gray-500">{transactionDetail.date_out}</p>
+                              <p className="font-medium">Pickup Schedule</p>
+                              <p className="text-gray-500">{transactionDetail.date_service}</p>
+                              <p className="font-medium">Pet description</p>
+                              <p className="text-gray-500">{transactionDetail.description}</p>
                             </>
                           )}
                           {transactionDetail.service_pet.type_service === 'grooming' && (
                             <>
-                              <p className="font-medium">Date Grooming</p>
+                              <p className="font-medium">Date Grooming & Pickup pet</p>
                               <p className="text-gray-500">{transactionDetail.date_service}</p>
                             </>
                           )}

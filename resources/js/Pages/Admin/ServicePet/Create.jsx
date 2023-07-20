@@ -39,7 +39,7 @@ export default function Create() {
           <div className="flex-col mr-8">
             <div className="flex justify-between">
               <div className="flex-col">
-                <h1 className="text-lg font-semibold text-gray-900">Product</h1>
+                <h1 className="text-lg font-semibold text-gray-900">Service</h1>
                 <Breadcrumb
                   breadcrumbs={[
                     { name: 'Services', href: '/admin/services', key: '1' },

@@ -124,6 +124,7 @@ export default function index({ auth, user, transactions, flash }) {
                             </tr>
                           </thead>
                           {transactions.data.map((transaction) => {
+                            // console.log(transaction);
                             return (
                               <tbody className="divide-y divide-gray-100 text-left" key={transaction.id}>
                                 <tr className="hover:cursor-pointer hover:bg-gray-100" onClick={() => { handleDetailTransaction(transaction.id) }}>

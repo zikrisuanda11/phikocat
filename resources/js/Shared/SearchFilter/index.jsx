@@ -25,21 +25,8 @@ export default function SearchFilter({ url }) {
 
   return (
     <>
-      {/* <TextField sx={{
-        width: '50%',
-        marginX: 'auto',
-        marginTop: 3,
-        outline: 'none',
-        border: 'none'
-      }}
-        size="small"
-        placeholder="Cari produk"
-        onChange={handleQuery}
-        onKeyDown={handleSearch}
-      /> */}
-      {/* <label htmlFor="search">Cari Product</label> */}
       <div className="flex w-full justify-center ">
-        <div className="flex w-1/2 border border-gray-300 rounded-md px-3">
+        <div className="flex w-full border border-gray-300 rounded-md px-3">
           <div className=" flex items-center">
             <TfiSearch size={24} className="text-gray-500"/>
           </div>

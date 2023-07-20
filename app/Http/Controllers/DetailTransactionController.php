@@ -18,17 +18,17 @@ class DetailTransactionController extends Controller
         $typeTransaction = TypeTransaction::where('id', $transaction->type_transaction_id)->first();
         $user = User::where('id', $transaction->user_id)->first();
         $transactionDetails->load('productPets', 'servicePet', 'transaction.typeTransaction');
+        $transaction->load('user');
 
-        if(Auth::user()->hasRole('admin')){
+        if (Auth::user()->hasRole('admin')) {
             return inertia('Admin/DetailTransaction/index', [
                 'transactionDetails' => $transactionDetails,
-            'transaction' => $transaction,
-            'typeTransaction' => $typeTransaction->type_transaction_name,
-            'user' => $user
+                'transaction' => $transaction,
+                'typeTransaction' => $typeTransaction->type_transaction_name,
+                'user' => $user
             ]);
         }
 
-        $transaction->load('user');
 
         return inertia('DetailTransaction/index', [
             'transactionDetails' => $transactionDetails,
