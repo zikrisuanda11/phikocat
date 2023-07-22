@@ -19,11 +19,13 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function grooming()
+    public function grooming($id)
     {
-        $total_price = ServicePet::select('price_service')->where('type_service', 'grooming')->first();
+        $service = ServicePet::where('id', $id)->first();
+        $total_price = ServicePet::select('price_service')->where('id', $id)->first();
         return inertia('Customer/Service/Grooming/grooming', [
-            'total_price' => $total_price->price_service
+            'total_price' => $total_price->price_service,
+            'service' => $service
         ]);
     }
 

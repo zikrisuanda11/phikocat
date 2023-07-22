@@ -144,15 +144,17 @@ class TransactionController extends Controller
 
     public function grooming(Request $request)
     {
+        // dd($request->service_id);
         $user = auth()->user();
         $request->validate([
             'type_transaction_id' => 'required',
             'type_payment' => 'required',
-            'date_service' => 'required'
+            'date_service' => 'required',
+            'service_id' => 'required'
         ]);
 
         $typeTransaction = TypeTransaction::where('id', $request->type_transaction_id)->first();
-        $service = ServicePet::where('type_service', 'grooming')->first();
+        $service = ServicePet::where('id', $request->service_id)->first();
         if ($typeTransaction->type_transaction_name == 'products') {
             return session()->flash('error', 'Cannot process transaction');
         }

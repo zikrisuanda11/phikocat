@@ -41,8 +41,11 @@ function Landing({flash}){
               <Buttons onClick={handleButtonClick} variant={'contained'} size={'large'} title={'Layanan Kami'} backgroundColor={'#124C5F'} endIcon={<KeyboardArrowRight />} />
             </div>
           </div>
-          <div>
-            <img src='/assets/img/header-img.png' alt="header-image" className="w-[35rem] mx-auto" />
+          <div className=" relative flex items-center justify-center">
+            <img src='/assets/img/cat2.png' alt="header-image" className="w-[25rem] mx-auto  absolute" />
+            {/* <img src='/assets/img/cat_shadow.png' alt="header-image" className="w-[25rem] mx-auto  absolute" /> */}
+            {/* <div className="h-96 w-96 rounded-full bg-yellow-300 absolute z-10"></div>
+            <img src='/assets/img/cat.png' alt="header-image" className="w-[25rem] mx-auto z-30 " /> */}
           </div>
         </header>
 

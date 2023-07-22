@@ -9,7 +9,7 @@ export default function CustomButton({ href, customClass, title, onClick, varian
 
   return (
     <>
-      <button className={`${customClass} ${variant === 'contained' ? variantButton.contained : variantButton.outlined} rounded-md font-bold flex items-center justify-center hover:secondary`}
+      <button className={`${customClass} ${variant === 'contained' ? variantButton.contained : variantButton.outlined} hover:transition-colors transition duration-75 rounded-md font-bold flex items-center justify-center hover:secondary`}
         onClick={onClick}
         type={type}
         href={href}

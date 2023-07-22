@@ -14,7 +14,7 @@ export default function status({ flash,  transaction, detailTransaction, admin }
       toast.success('Berhasil melakukan pembayaran')
     }
     if (flash.message) {
-      toast.success(flash.message)
+      toast.loading(flash.message)
     }
     Inertia.post('/clear-flash')
   }, [transaction.status_transaction, transaction.id, flash.message]);

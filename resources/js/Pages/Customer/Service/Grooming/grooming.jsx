@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import DateFormat from '@/Helper/DateFormat'
 import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 
-export default function grooming({ total_price }) {
+export default function grooming({ total_price, service }) {
   const [dateService, setDateService] = useState(DateFormat(new Date()));
   console.log(dateService);
   const [typePayment, setTypePayment] = React.useState('cod');
@@ -19,7 +19,8 @@ export default function grooming({ total_price }) {
     Inertia.post('/checkout/grooming', {
       type_transaction_id: 2,
       type_payment: typePayment,
-      date_service: dateService
+      date_service: dateService,
+      service_id: service.id
     });
   }
 

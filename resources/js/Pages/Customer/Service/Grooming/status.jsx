@@ -14,7 +14,7 @@ export default function status({ flash,  transaction, detailTransaction, admin }
       toast.success('Berhasil melakukan pembayaran')
     }
     if (flash.message) {
-      toast.success(flash.message)
+      toast.loading(flash.message)
     }
     Inertia.post('/clear-flash')
   }, [transaction.status_transaction, transaction.id, flash.message]);
@@ -47,11 +47,11 @@ export default function status({ flash,  transaction, detailTransaction, admin }
                   </header>
                   <Divider />
                   <div className="my-3">
-                    <div className="text-xs text-slate-500">Transaction ID</div>
+                    <div className="text-xs text-slate-500">ID Transaksi</div>
                     <p className="font-bold">#{transaction.id}</p>
                   </div>
                   <div className="my-3">
-                    <div className="text-xs text-slate-500">Date Grooming</div>
+                    <div className="text-xs text-slate-500">Tanggal Penjemputan</div>
                     <p className="font-bold">{detailTransaction.date_service}</p>
                   </div>
                   <div className="my-3">

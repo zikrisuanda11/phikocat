@@ -18,7 +18,7 @@ export default function status({ flash, transaction, admin }) {
 
   useEffect(() => {
     if (flash.message) {
-      toast.success(flash.message)
+      toast.loading(flash.message)
     }
     Inertia.post('/clear-flash')
   }, [flash.message])
